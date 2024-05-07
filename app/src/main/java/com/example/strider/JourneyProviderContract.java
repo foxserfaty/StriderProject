@@ -3,7 +3,7 @@ package com.example.strider;
 import android.net.Uri;
 
 public class JourneyProviderContract {
-    public static final String AUTHORITY = "com.example.strider.JourneyProvider"; // Corrected authority
+    public static final String AUTHORITY = "com.example.strider.JourneyProvider";
 
     public static final Uri ALL_URI = Uri.parse("content://" + AUTHORITY);
     public static final Uri JOURNEY_URI = Uri.parse("content://" + AUTHORITY + "/journey");
@@ -11,7 +11,7 @@ public class JourneyProviderContract {
 
     public static final String J_ID = "journeyID";
     public static final String J_DURATION = "duration";
-    public static final String J_DISTANCE = "distance"; // Corrected variable name
+    public static final String J_DISTANCE = "distance";
     public static final String J_NAME = "name";
     public static final String J_RATING = "rating";
     public static final String J_COMMENT = "comment";

@@ -1,17 +1,17 @@
 package com.example.strider;
 
-import androidx.fragment.app.FragmentActivity;
-
 import android.database.Cursor;
 import android.os.Bundle;
 
+import androidx.fragment.app.FragmentActivity;
+
+import com.example.strider.databinding.ActivityMapsBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.example.strider.databinding.ActivityMapsBinding;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
