@@ -19,10 +19,12 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
 
-
     <ListView
         android:id="@android:id/list"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
+        android:layout_gravity="center"
+        android:dividerHeight="10dp"
+        android:divider="@null"
         android:layout_height="match_parent" />
 
 </LinearLayout>

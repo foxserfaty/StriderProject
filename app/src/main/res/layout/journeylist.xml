@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -7,7 +7,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#E6E6FA">
+        android:background="@drawable/rounded_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/singleJourney"
@@ -16,9 +18,11 @@
             android:layout_alignBottom="@+id/journeyList_journeyImg"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginStart="30dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginStart="49dp"
+            android:layout_marginLeft="49dp"
+            android:layout_marginEnd="27dp"
+            android:layout_marginRight="27dp"
+            android:layout_marginBottom="16dp"
             android:layout_toEndOf="@+id/journeyList_journeyImg"
             android:layout_toRightOf="@+id/journeyList_journeyImg"
             android:text="234"
@@ -32,11 +36,11 @@
             android:layout_height="80dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
             app:srcCompat="@drawable/running" />
 
 
     </RelativeLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

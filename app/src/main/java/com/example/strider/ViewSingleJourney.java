@@ -17,13 +17,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.io.InputStream;
 
 public class ViewSingleJourney extends AppCompatActivity {
-    private ImageView journeyImg;
+
     private TextView distanceTV;
     private TextView avgSpeedTV;
     private TextView timeTV;
     private TextView dateTV;
     private TextView ratingTV;
-    private TextView commentTV;
     private TextView titleTV;
 
     private long journeyID;
@@ -55,13 +54,11 @@ public class ViewSingleJourney extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
 
-        journeyImg = findViewById(R.id.ViewSingleJourney_journeyImg);
         distanceTV = findViewById(R.id.Statistics_recordDistance);
         avgSpeedTV = findViewById(R.id.Statistics_distanceToday);
         timeTV     = findViewById(R.id.Statistics_timeToday);
         dateTV     = findViewById(R.id.ViewSingleJourney_dateText);
         ratingTV   = findViewById(R.id.ViewSingleJourney_ratingText);
-        commentTV  = findViewById(R.id.ViewSingleJourney_commentText);
         titleTV    = findViewById(R.id.ViewSingleJourney_titleText);
         journeyID  = bundle.getLong("journeyID");
 
@@ -114,7 +111,6 @@ public class ViewSingleJourney extends AppCompatActivity {
 
             int dateIndex = c.getColumnIndex(JourneyProviderContract.J_DATE);
             int ratingIndex = c.getColumnIndex(JourneyProviderContract.J_RATING);
-            int commentIndex = c.getColumnIndex(JourneyProviderContract.J_COMMENT);
             int nameIndex = c.getColumnIndex(JourneyProviderContract.J_NAME);
             int imageIndex = c.getColumnIndex(JourneyProviderContract.J_IMAGE);
 
@@ -125,7 +121,6 @@ public class ViewSingleJourney extends AppCompatActivity {
 
             dateTV.setText(date);
             ratingTV.setText(c.getInt(ratingIndex) + "");
-            commentTV.setText(c.getString(commentIndex));
             titleTV.setText(c.getString(nameIndex));
 
             // if an image has been set by user display it, else default image is displayed
@@ -135,7 +130,6 @@ public class ViewSingleJourney extends AppCompatActivity {
                     final Uri imageUri = Uri.parse(strUri);
                     final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                     final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                    journeyImg.setImageBitmap(selectedImage);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -109,9 +109,13 @@ public class RecordJourney extends AppCompatActivity {
         if(locationService != null && locationService.currentlyTracking()) {
             stopButton.setEnabled(true);
             playButton.setEnabled(false);
+            playButton.setVisibility(View.GONE);
+            stopButton.setVisibility(View.VISIBLE);
         } else {
             stopButton.setEnabled(false);
             playButton.setEnabled(true);
+            playButton.setVisibility(View.VISIBLE);
+            stopButton.setVisibility(View.GONE);
         }
     }
 
@@ -157,8 +161,11 @@ public class RecordJourney extends AppCompatActivity {
 
         // start the timer and tracking GPS locations
         locationService.playJourney();
+
         playButton.setEnabled(false);
         stopButton.setEnabled(true);
+        playButton.setVisibility(View.GONE);
+        stopButton.setVisibility(View.VISIBLE);
     }
 
     public void onClickStop(View view) {
@@ -166,9 +173,12 @@ public class RecordJourney extends AppCompatActivity {
         float distance = locationService.getDistance();
         locationService.saveJourney();
 
-        playButton.setEnabled(false);
+        playButton.setEnabled(true);
         stopButton.setEnabled(false);
 
+
+        playButton.setVisibility(View.VISIBLE);
+        stopButton.setVisibility(View.GONE);
 
         DialogFragment modal = FinishedTrackingDialogue.newInstance(String.format("%.2f KM", distance));
         modal.show(getSupportFragmentManager(), "Finished");
