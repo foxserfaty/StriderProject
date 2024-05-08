@@ -1,4 +1,4 @@
-package com.example.strider;
+package com.example.striderproject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class EditJourney extends AppCompatActivity {

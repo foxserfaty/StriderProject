@@ -1,9 +1,8 @@
-package com.example.strider;
+package com.example.striderproject;
 
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;

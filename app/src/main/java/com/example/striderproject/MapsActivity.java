@@ -1,11 +1,11 @@
-package com.example.strider;
+package com.example.striderproject;
 
 import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.fragment.app.FragmentActivity;
 
-import com.example.strider.databinding.ActivityMapsBinding;
+import com.example.striderproject.databinding.ActivityMapsBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;

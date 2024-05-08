@@ -1,4 +1,4 @@
-package com.example.strider;
+package com.example.striderproject;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

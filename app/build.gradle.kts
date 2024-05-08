@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.strider"
+    namespace = "com.example.striderproject"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.strider"
+        applicationId = "com.example.strider.project"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
@@ -32,6 +32,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
 }
 
