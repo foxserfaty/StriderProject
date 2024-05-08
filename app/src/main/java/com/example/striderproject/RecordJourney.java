@@ -1,10 +1,5 @@
 package com.example.striderproject;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -18,12 +13,14 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.SystemClock;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Chronometer;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 
 public class RecordJourney extends AppCompatActivity {
     private GifPlayer gif;
@@ -225,12 +222,13 @@ public class RecordJourney extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int reqCode, String[] permissions, int[] results) {
-        switch(reqCode) {
+        super.onRequestPermissionsResult(reqCode, permissions, results);
+        switch (reqCode) {
             case PERMISSION_GPS_CODE:
                 if (results.length > 0 && results[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission granted
                     initButtons();
-                    if(locationService != null) {
+                    if (locationService != null) {
                         locationService.notifyGPSEnabled();
                     }
                 } else {

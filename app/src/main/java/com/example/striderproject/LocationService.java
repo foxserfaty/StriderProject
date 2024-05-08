@@ -4,19 +4,14 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.content.Context;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.SystemClock;
 import android.util.Log;
@@ -25,18 +20,15 @@ import androidx.core.app.NotificationCompat;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 public class LocationService extends Service {
     private LocationManager locationManager;
     private MyLocationListener locationListener;
     private final IBinder binder = new LocationServiceBinder();
-
     private final String CHANNEL_ID = "100";
     private final int NOTIFICATION_ID = 001;
     private long startTime = 0;
     private long stopTime = 0;
-
     final int TIME_INTERVAL = 3;
     final int DIST_INTERVAL = 3;
 
@@ -51,7 +43,7 @@ public class LocationService extends Service {
 
 
         try {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME_INTERVAL, DIST_INTERVAL, locationListener);
+            locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER, TIME_INTERVAL, DIST_INTERVAL, locationListener);
         } catch(SecurityException e) {
             // don't have the permission to access GPS
             Log.d("mdp", "No Permissions for GPS");
@@ -93,11 +85,11 @@ public class LocationService extends Service {
             notificationManager.createNotificationChannel(channel);
         }
 
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this,
-                CHANNEL_ID)
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_background)
                 .setContentTitle("Tracking Journey")
                 .setContentText("Keep Running!")
@@ -124,7 +116,6 @@ public class LocationService extends Service {
     public IBinder onBind(Intent intent) {
         return binder;
     }
-
     protected float getDistance() {
         return locationListener.getDistanceOfJourney();
     }
@@ -163,7 +154,7 @@ public class LocationService extends Service {
     protected void saveJourney() {
         // save journey to database using content provider
         ContentValues journeyData = new ContentValues();
-        journeyData.put(JourneyProviderContract.J_distance, getDistance());
+        journeyData.put(JourneyProviderContract.J_DISTANCE, getDistance());
         journeyData.put(JourneyProviderContract.J_DURATION, (long) getDuration());
         journeyData.put(JourneyProviderContract.J_DATE, getDateTime());
 
@@ -196,7 +187,7 @@ public class LocationService extends Service {
         // can be used ot change GPS request frequency for battery conservation
         try {
             locationManager.removeUpdates(locationListener);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, time, dist, locationListener);
+            locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER, time, dist, locationListener);
             Log.d("mdp", "New min time = " + time + ", min dist = " + dist);
         } catch(SecurityException e) {
             // don't have the permission to access GPS
@@ -207,7 +198,7 @@ public class LocationService extends Service {
 
     protected void notifyGPSEnabled() {
         try {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3, 3, locationListener);
+            locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER, 3, 3, locationListener);
         } catch(SecurityException e) {
             // don't have the permission to access GPS
             Log.d("mdp", "No Permissions for GPS");

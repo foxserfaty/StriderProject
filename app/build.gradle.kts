@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.androidApplication)
+    alias(libs.plugins.googleAndroidLibrariesMapsplatformSecretsGradlePlugin)
 }
 
 android {
@@ -7,8 +8,8 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.striderproject"
-        minSdk = 33
+        applicationId = "com.example.strider.project"
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -29,14 +30,21 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    buildFeatures {
+        viewBinding = true
+        dataBinding = true
+    }
 }
 
 dependencies {
 
     implementation(libs.appcompat)
     implementation(libs.material)
+    implementation(libs.activity)
+    implementation(libs.constraintlayout)
     implementation(libs.play.services.maps)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation(libs.mpandroidchart)
 }
