@@ -19,6 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "StriderProject"
+rootProject.name = "striderproject"
 include(":app")
- 

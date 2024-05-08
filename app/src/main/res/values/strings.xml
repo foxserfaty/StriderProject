@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">StriderProject</string>
+    <string name="app_name">striderproject</string>
+    <string name="title_home">Home</string>
+    <string name="title_map">Map</string>
+    <string name="title_track">Track</string>
+    <string name="title_goal">Goal</string>
+    <string name="title_account">Account</string>
 </resources>
