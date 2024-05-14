@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.googleAndroidLibrariesMapsplatformSecretsGradlePlugin)
+
 }
 
 android {
