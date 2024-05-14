@@ -67,7 +67,7 @@
         android:id="@+id/journeyImg"
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        app:srcCompat="@drawable/runner" />
+        app:srcCompat="@drawable/run" />
 
     <Button
         android:id="@+id/button4"
@@ -85,6 +85,7 @@
         android:onClick="onClickSave"
         android:padding="8dp"
         android:text="SAVE JOURNEY"
+        android:textColor="@color/colorPrimary"
         android:theme="@style/FlatButton" />
 
 </LinearLayout>

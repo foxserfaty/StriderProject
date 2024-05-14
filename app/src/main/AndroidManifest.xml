@@ -62,7 +62,7 @@
 
         <provider
             android:name=".JourneyProvider"
-            android:authorities="com.example.striderproject.JourneyProvider"
+            android:authorities="com.example.strider.JourneyProvider"
             android:exported="true" />
 
         <activity android:name=".RecordJourney"

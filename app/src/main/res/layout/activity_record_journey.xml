@@ -11,17 +11,33 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.example.striderproject.GifPlayer
-            android:id="@+id/gif"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/walk"
+                android:layout_width="161dp"
+                android:layout_height="800dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                app:srcCompat="@drawable/walk" />
+        </LinearLayout>
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="25dp"
             tools:layout_editor_absoluteY="8dp">
+
 
             <TextView
                 android:id="@+id/avgSpeedText"
@@ -30,7 +46,6 @@
                 android:layout_marginRight="25dp"
                 android:text="0.00 KM/H"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textColor="@android:color/holo_green_dark"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView9"
                 app:layout_constraintEnd_toEndOf="parent" />
 
@@ -42,7 +57,7 @@
                 android:layout_marginRight="25dp"
                 android:text="00:00:00"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textColor="@android:color/holo_green_dark"
+
                 app:layout_constraintBaseline_toBaselineOf="@+id/duration"
                 app:layout_constraintEnd_toEndOf="parent" />
 
@@ -54,7 +69,6 @@
                 android:layout_marginRight="25dp"
                 android:text="0.00 KM"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textColor="@android:color/holo_green_dark"
                 app:layout_constraintBaseline_toBaselineOf="@+id/distance"
                 app:layout_constraintEnd_toEndOf="parent" />
 
@@ -67,7 +81,6 @@
                 android:layout_marginTop="25dp"
                 android:text="Duration:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textColor="@android:color/holo_green_dark"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
@@ -80,7 +93,6 @@
                 android:layout_marginTop="25dp"
                 android:text="Average speed:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textColor="@android:color/holo_green_dark"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/distance" />
 
@@ -92,46 +104,45 @@
                 android:layout_marginTop="25dp"
                 android:text="Distance run:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textColor="@android:color/holo_green_dark"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <View style="@style/Divider"/>
 
-        <LinearLayout
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/startButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/round_button"
                 android:onClick="onClickPlay"
-                android:text="START" />
+                android:text="START"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.508"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/stopButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/round_button"
                 android:onClick="onClickStop"
-                android:text="STOP" />
-        </LinearLayout>
+                android:text="STOP"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.508"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <View style="@style/Divider"/>
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:text="Stopping this journey will automatically save it to your list of journeys" />
+
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
