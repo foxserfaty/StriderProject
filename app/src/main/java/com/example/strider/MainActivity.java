@@ -18,14 +18,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+      //  setContentView(R.layout.activity_main);
 
-        /*
         setContentView(R.layout.map_layout);
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         this.myMap = (MapFragment) fragmentManager.findFragmentById(R.id.fragment_map);
-        */
-
 
     }
 
