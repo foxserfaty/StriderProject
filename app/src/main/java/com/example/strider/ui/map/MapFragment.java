@@ -48,38 +48,46 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     private FusedLocationProviderClient fusedLocationClient;
     private LocationRequest locationRequest;
     private List<LatLng> locationList = new ArrayList<>();
-
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-
     private final LatLng defaultLocation = new LatLng(21.0501, 105.7502);
     private static final int DEFAULT_ZOOM = 16;
     private static final int DEFAULT_INTERVAL = 1000;
-
     private boolean locationPermissionGranted;
+    private boolean myLocationFocus = false;
+
     private Location lastKnownLocation;
     LatLng mylocation;
     private Polyline polyline;
-    private boolean isFirstLocation = true;
+    private boolean startTracking = false;
     private LocationCallback locationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(@NonNull LocationResult locationResult) {
             super.onLocationResult(locationResult);
             List<Location> locations = locationResult.getLocations();
-            Location bestLocation = locations.get(0); // Giả sử vị trí đầu tiên là vị trí tốt nhất ban đầu
+            Location bestLocation = locations.get(0);
             for (Location location : locations) {
                 if (location.getAccuracy() < bestLocation.getAccuracy()) {
-                    bestLocation = location; // Chọn vị trí có độ chính xác tốt nhất
+                    bestLocation = location;
                 }
             }
             mylocation = new LatLng(bestLocation.getLatitude(), bestLocation.getLongitude());
+
             locationList.add(mylocation);
 
-            //    markLocation(mylocation);
-            printCurrentLocation();
-            if (isFirstLocation) {
-                isFirstLocation = false; // Đánh dấu đã mark vị trí đầu tiên
-                markLocation(mylocation); // Mark vị trí đầu tiên
+            if (!startTracking) {
+                startTracking = true;
+                markLocation(mylocation,"Start");
+                map.clear();
+                if (polyline != null) {
+                    polyline.remove();
+                }
+
+
             }
+            if (myLocationFocus) {
+                cameraFocus(bestLocation);
+            }
+
             drawPolyline();
 
 
@@ -87,6 +95,11 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
 
     };
 
+    private void cameraFocus(Location location) {
+        float currentZoom = map.getCameraPosition().zoom;
+        LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, currentZoom));
+    }
 
     private void getLocationPermission() {
         if (ContextCompat.checkSelfPermission(requireContext(),
@@ -105,7 +118,6 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
-
     }
 
 
@@ -116,11 +128,27 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
             return;
         }
         map.setMyLocationEnabled(true);
-           getDeviceLocation();
+        map.getUiSettings().setMyLocationButtonEnabled(true);
+        getDeviceLocation();
         locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, DEFAULT_INTERVAL).build();
-        startLocationUpdates();
-    }
+      //  startLocationUpdates();
+        map.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+            @Override
+            public boolean onMyLocationButtonClick() {
+                myLocationFocus = true;
+                Log.d(TAG, "my location");
+                return false;
+            }
+        });
+        map.setOnCameraMoveStartedListener(reason -> {
+            if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
+                // Di chuyển camera do người dùng tự di chuyển
+                myLocationFocus = false;
+            }
+        });
 
+
+    }
 
     public MapFragment() {
         getMapAsync(this);
@@ -128,8 +156,10 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
 
     @Override
     public boolean onMyLocationButtonClick() {
-        return false;
+
+        return true;
     }
+
 
     @Override
     public void onMyLocationClick(@NonNull Location location) {
@@ -152,7 +182,7 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
                     } else {
                         map.moveCamera(CameraUpdateFactory
                                 .newLatLngZoom(defaultLocation, DEFAULT_ZOOM));
-                        map.getUiSettings().setMyLocationButtonEnabled(true);
+
                     }
                 }
             });
@@ -160,10 +190,11 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
             Log.e("Exception: %s", e.getMessage(), e);
         }
     }
-    public void markLocation(LatLng myLocation) {
+
+    public void markLocation(LatLng myLocation, String title) {
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(myLocation);
-        markerOptions.title("My location");
+        markerOptions.title(title);
         map.addMarker(markerOptions);
 
     }
@@ -187,6 +218,13 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     }
 
     private void stopLocationUpdates() {
+        if (mylocation != null) {
+            markLocation(mylocation, "End");
+            startTracking = false;
+        }
+        if (!locationList.isEmpty()) {
+            locationList.clear();
+        }
         fusedLocationClient.removeLocationUpdates(locationCallback);
     }
 
@@ -200,5 +238,14 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
             polyline = map.addPolyline(polylineOptions);
         }
     }
+    public void startLocationUpdatesFromActivity() {
+        startLocationUpdates();
+    }
+    public void stopLocationUpdatesFromActivity() {
+        stopLocationUpdates();
+    }
+
+
+
 
 }

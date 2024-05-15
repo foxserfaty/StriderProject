@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -15,8 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Strider"
-        tools:targetApi="31" >
-
+        tools:targetApi="31">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCDbBa3Gj09tpqMaiY7vhlN0kL3G3xkYn4" />
@@ -29,7 +28,7 @@
         <receiver
             android:name=".MyReceiver"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BATTERY_LOW" />
             </intent-filter>
@@ -38,22 +37,23 @@
         <activity
             android:name=".StatisticsActivity"
             android:exported="false"
-            android:label="StatisticsActivity"/>
-
+            android:label="StatisticsActivity" />
         <activity
             android:name=".EditJourney"
             android:exported="false"
-            android:label="EditJourney"/>
-
+            android:label="EditJourney" />
         <activity
             android:name=".ViewSingleJourney"
             android:exported="false"
-            android:label="ViewSingleJourney"/>
-
+            android:label="ViewSingleJourney" />
         <activity
             android:name=".ViewJourneys"
             android:exported="false"
-            android:label="ViewJourneys"/>
+            android:label="ViewJourneys" />
+        <activity
+            android:name=".MyLocationActivity"
+            android:exported="false"
+            android:label="MyLocation" />
 
         <service
             android:name=".LocationService"
@@ -65,13 +65,13 @@
             android:authorities="com.example.strider.JourneyProvider"
             android:exported="true" />
 
-        <activity android:name=".RecordJourney"
+        <activity
+            android:name=".RecordJourney"
             android:exported="false"
             android:label="RecordJourney" />
-
         <activity
             android:name=".MainActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
