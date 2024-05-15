@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.androidApplication)
-
 }
 
 android {
@@ -26,16 +25,23 @@ android {
             )
         }
     }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
+
     buildFeatures {
         viewBinding = true
+    }
+
+    testOptions {
+        unitTests.isReturnDefaultValues = true;
     }
 }
 
 dependencies {
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
     implementation(libs.appcompat)
     implementation(libs.material)
@@ -45,9 +51,12 @@ dependencies {
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     implementation(libs.play.services.location)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)
     implementation(libs.mpandroidchart)
-    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+    testImplementation(libs.junit)
+    testImplementation(libs.ext.junit)
+    testImplementation("org.mockito:mockito-core:5.0.0")
+    testImplementation("org.mockito:mockito-android:5.0.0")
+    testImplementation("androidx.test:runner:1.4.0")
+    androidTestImplementation(libs.espresso.core)
 }
