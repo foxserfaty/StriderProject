@@ -32,6 +32,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
 }
 
@@ -46,8 +47,14 @@ dependencies {
     implementation(libs.navigation.ui)
     implementation(libs.play.services.location)
     testImplementation(libs.junit)
-    androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+    testImplementation (libs.truth)
+    testImplementation (libs.truth.java8.extension)
+
+
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
+    androidTestImplementation("com.google.truth:truth:1.1.3")
     implementation(libs.mpandroidchart)
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }
