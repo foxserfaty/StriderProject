@@ -13,9 +13,6 @@ playServicesMaps = "18.2.0"
 navigationFragment = "2.7.7"
 navigationUi = "2.7.7"
 playServicesLocation = "21.2.0"
-truth = "1.0.1"
-truthJava8Extension = "1.0.1"
-truthVersion = "1.0.1"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -30,9 +27,6 @@ play-services-maps = { group = "com.google.android.gms", name = "play-services-m
 navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "navigationUi" }
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
-truth = { module = "com.google.truth:truth", version.ref = "truth" }
-truth-java8-extension = { module = "com.google.truth.extensions:truth-java8-extension", version.ref = "truthJava8Extension" }
-truth-v = { module = "com.google.truth:truth", version.ref = "truthVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

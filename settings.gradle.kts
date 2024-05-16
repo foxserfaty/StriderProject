@@ -20,6 +20,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "strider"
-include(":app",":spotify-app-remote-release-0.8.0")
+rootProject.name = "striderproject"
+include(":app")
  

@@ -3,6 +3,7 @@ package com.example.strider;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -22,9 +23,9 @@ public class EditJourney extends AppCompatActivity {
     private final int RESULT_LOAD_IMG = 1;
 
     private ImageView journeyImg;
-    private EditText titleET;
-    private EditText commentET;
-    private EditText ratingET;
+    EditText titleET;
+    EditText commentET;
+    EditText ratingET;
     private long journeyID;
 
     private Uri selectedJourneyImg;
@@ -40,29 +41,31 @@ public class EditJourney extends AppCompatActivity {
         titleET = findViewById(R.id.titleEditText);
         commentET = findViewById(R.id.commentEditText);
         ratingET = findViewById(R.id.ratingEditText);
-        journeyID = bundle.getLong("journeyID");
+        //journeyID = bundle.getLong("journeyID");
+
+        if (bundle != null) {
+            journeyID = bundle.getLong("journeyID");
+        } else {
+            finish();
+        }
 
         selectedJourneyImg = null;
-
         populateEditText();
     }
 
     /* Save the new title, comment, image and rating to the DB */
     public void onClickSave(View v) {
-        String title = titleET.getText().toString();
-        String comment = commentET.getText().toString();
-        String ratingS = ratingET.getText().toString();
-        if(!validateEditJourneyInput(title, comment, ratingS)){
+        int rating = checkRating(ratingET);
+        if(rating == -1) {
             return;
         }
-        int rating = Integer.parseInt(ratingS);
 
         Uri rowQueryUri = Uri.withAppendedPath(JourneyProviderContract.JOURNEY_URI, "" + journeyID);
 
         ContentValues cv = new ContentValues();
         cv.put(JourneyProviderContract.J_RATING, rating);
-        cv.put(JourneyProviderContract.J_COMMENT, comment);
-        cv.put(JourneyProviderContract.J_NAME, title);
+        cv.put(JourneyProviderContract.J_COMMENT, commentET.getText().toString());
+        cv.put(JourneyProviderContract.J_NAME, titleET.getText().toString());
 
         if(selectedJourneyImg != null) {
             cv.put(JourneyProviderContract.J_IMAGE, selectedJourneyImg.toString());
@@ -109,7 +112,7 @@ public class EditJourney extends AppCompatActivity {
     }
 
     /* Give the edit texts some initial text from what they were, get this by accessing DB */
-    private void populateEditText() {
+    void populateEditText() {
         Cursor c = getContentResolver().query(Uri.withAppendedPath(JourneyProviderContract.JOURNEY_URI,
                 journeyID + ""), null, null, null, null);
 
@@ -138,23 +141,24 @@ public class EditJourney extends AppCompatActivity {
         }
     }
 
-    static Boolean validateEditJourneyInput(String title, String comment, String ratingS){
-        if(title.isEmpty()){
-//            Log.d("mdp", "Title can not be empty!");
-            return false;
-        }
+    /* Ensure a rating is between 1-5 */
+    private int checkRating(EditText newRating) {
         int rating;
         try {
-            rating = Integer.parseInt(ratingS);
+            rating = Integer.parseInt(newRating.getText().toString());
         } catch(Exception e) {
-//            Log.d("mdp", "The following is not a number: " + ratingS);
-            return false;
+            Log.d("mdp", "The following is not a number: " + newRating.getText().toString());
+            return -1;
         }
+
         if(rating < 0 || rating > 5) {
-//            Log.d("mdp", "Rating must be between 0-5");
-            return false;
+            Log.d("mdp", "Rating must be between 0-5");
+            return -1;
         }
-        return true;
+        return rating;
     }
 
+    public void setJourneyID(int id) {
+        this.journeyID = id;
+    }
 }
