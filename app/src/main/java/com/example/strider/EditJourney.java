@@ -3,6 +3,7 @@ package com.example.strider;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -22,9 +23,9 @@ public class EditJourney extends AppCompatActivity {
     private final int RESULT_LOAD_IMG = 1;
 
     private ImageView journeyImg;
-    private EditText titleET;
-    private EditText commentET;
-    private EditText ratingET;
+    EditText titleET;
+    EditText commentET;
+    EditText ratingET;
     private long journeyID;
 
     private Uri selectedJourneyImg;
@@ -40,10 +41,15 @@ public class EditJourney extends AppCompatActivity {
         titleET = findViewById(R.id.titleEditText);
         commentET = findViewById(R.id.commentEditText);
         ratingET = findViewById(R.id.ratingEditText);
-        journeyID = bundle.getLong("journeyID");
+        //journeyID = bundle.getLong("journeyID");
+
+        if (bundle != null) {
+            journeyID = bundle.getLong("journeyID");
+        } else {
+            finish();
+        }
 
         selectedJourneyImg = null;
-
         populateEditText();
     }
 
@@ -106,7 +112,7 @@ public class EditJourney extends AppCompatActivity {
     }
 
     /* Give the edit texts some initial text from what they were, get this by accessing DB */
-    private void populateEditText() {
+    void populateEditText() {
         Cursor c = getContentResolver().query(Uri.withAppendedPath(JourneyProviderContract.JOURNEY_URI,
                 journeyID + ""), null, null, null, null);
 
@@ -152,4 +158,7 @@ public class EditJourney extends AppCompatActivity {
         return rating;
     }
 
+    public void setJourneyID(int id) {
+        this.journeyID = id;
+    }
 }
