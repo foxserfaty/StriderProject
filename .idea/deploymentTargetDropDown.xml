@@ -2,10 +2,7 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="MainActivityInstrumentedTest">
-        <State />
-      </entry>
-      <entry key="RecordJourneyInstrumentedTest">
+      <entry key="app">
         <State />
       </entry>
       <entry key="ViewJourneysInstrumentedTest">

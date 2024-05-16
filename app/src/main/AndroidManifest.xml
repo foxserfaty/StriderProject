@@ -16,6 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Strider"
         tools:targetApi="31">
+        <activity
+            android:name=".SpotifyActivity"
+            android:exported="false" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCDbBa3Gj09tpqMaiY7vhlN0kL3G3xkYn4" />
