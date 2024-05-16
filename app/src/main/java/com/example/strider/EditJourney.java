@@ -49,17 +49,20 @@ public class EditJourney extends AppCompatActivity {
 
     /* Save the new title, comment, image and rating to the DB */
     public void onClickSave(View v) {
-        int rating = checkRating(ratingET);
-        if(rating == -1) {
+        String title = titleET.getText().toString();
+        String comment = commentET.getText().toString();
+        String ratingS = ratingET.getText().toString();
+        if(!validateEditJourneyInput(title, comment, ratingS)){
             return;
         }
+        int rating = Integer.parseInt(ratingS);
 
         Uri rowQueryUri = Uri.withAppendedPath(JourneyProviderContract.JOURNEY_URI, "" + journeyID);
 
         ContentValues cv = new ContentValues();
         cv.put(JourneyProviderContract.J_RATING, rating);
-        cv.put(JourneyProviderContract.J_COMMENT, commentET.getText().toString());
-        cv.put(JourneyProviderContract.J_NAME, titleET.getText().toString());
+        cv.put(JourneyProviderContract.J_COMMENT, comment);
+        cv.put(JourneyProviderContract.J_NAME, title);
 
         if(selectedJourneyImg != null) {
             cv.put(JourneyProviderContract.J_IMAGE, selectedJourneyImg.toString());
@@ -135,21 +138,23 @@ public class EditJourney extends AppCompatActivity {
         }
     }
 
-    /* Ensure a rating is between 1-5 */
-    private int checkRating(EditText newRating) {
+    static Boolean validateEditJourneyInput(String title, String comment, String ratingS){
+        if(title.isEmpty()){
+//            Log.d("mdp", "Title can not be empty!");
+            return false;
+        }
         int rating;
         try {
-            rating = Integer.parseInt(newRating.getText().toString());
+            rating = Integer.parseInt(ratingS);
         } catch(Exception e) {
-            Log.d("mdp", "The following is not a number: " + newRating.getText().toString());
-            return -1;
+//            Log.d("mdp", "The following is not a number: " + ratingS);
+            return false;
         }
-
         if(rating < 0 || rating > 5) {
-            Log.d("mdp", "Rating must be between 0-5");
-            return -1;
+//            Log.d("mdp", "Rating must be between 0-5");
+            return false;
         }
-        return rating;
+        return true;
     }
 
 }
