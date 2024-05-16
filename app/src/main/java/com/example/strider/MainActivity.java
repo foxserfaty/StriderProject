@@ -13,17 +13,12 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int PERMISSION_GPS_CODE = 1;
     private static final int PERMISSION_COAL_GPS_CODE = 2;
-    private MapFragment myMap;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // setContentView(R.layout.map_layout);
-        // FragmentManager fragmentManager = this.getSupportFragmentManager();
-        // this.myMap = (MapFragment) fragmentManager.findFragmentById(R.id.fragment_map);
-
     }
 
     public void onClickRecord(View v) {
@@ -43,4 +38,10 @@ public class MainActivity extends AppCompatActivity {
         Intent stats = new Intent(MainActivity.this, StatisticsActivity.class);
         startActivity(stats);
     }
+    public void onClickMyLocation(View v) {
+        // go to the activity for displaying statistics
+        Intent myLocation = new Intent(MainActivity.this, MyLocationActivity.class);
+        startActivity(myLocation);
+    }
+
 }

@@ -6,17 +6,42 @@
     android:layout_height="match_parent"
     tools:context=".ui.map.MapFragment">
 
-    <TextView
-        android:id="@+id/text_map"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/map_fragment"
+        android:name="com.example.strider.ui.map.MapFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
+        android:layout_height="626dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/start_track"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/round_button"
+        android:text="START"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/map_fragment"
+        tools:ignore="DuplicateClickableBoundsCheck" />
+
+    <Button
+        android:id="@+id/stop_track"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/round_button"
+        android:text="Stop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/map_fragment" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
