@@ -129,6 +129,7 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         }
         map.setMyLocationEnabled(true);
         map.getUiSettings().setMyLocationButtonEnabled(true);
+        map.getUiSettings().setZoomControlsEnabled(true);
         getDeviceLocation();
         locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, DEFAULT_INTERVAL).build();
       //  startLocationUpdates();

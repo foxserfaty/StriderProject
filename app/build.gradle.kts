@@ -57,4 +57,7 @@ dependencies {
     androidTestImplementation("com.google.truth:truth:1.1.3")
     implementation(libs.mpandroidchart)
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation(project(":spotify-app-remote-release-0.8.0"))
+    implementation ("com.google.code.gson:gson:2.6.1")
+    implementation ("com.spotify.android:auth:1.2.5")
 }
