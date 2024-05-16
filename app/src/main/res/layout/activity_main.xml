@@ -9,22 +9,6 @@
 
 
     <Button
-        android:id="@+id/location_button"
-        android:layout_width="200dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="8dp"
-        android:background="@android:color/holo_green_dark"
-        android:onClick="onClickMyLocation"
-        android:text="MY LOCATION"
-        android:textColor="@android:color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statistics_button" />
-
-    <Button
         android:id="@+id/to_record_button"
         android:layout_width="200dp"
         android:layout_height="65dp"
@@ -73,18 +57,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/journey_history_button" />
 
-    <Button
-        android:id="@+id/spotify_button"
-        android:layout_width="200dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="8dp"
-        android:onClick="onClickSpotify"
-        android:text="SPOTIFY"
-        android:textColor="@android:color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/location_button" />
 </androidx.constraintlayout.widget.ConstraintLayout>
