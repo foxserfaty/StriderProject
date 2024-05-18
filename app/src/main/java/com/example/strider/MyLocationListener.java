@@ -11,6 +11,7 @@ public class MyLocationListener implements LocationListener {
     ArrayList<Location> locations;
     boolean recordLocations;
     float total = 0;
+    int lastSize = 0;
 
     public MyLocationListener() {
         newJourney();
@@ -22,12 +23,14 @@ public class MyLocationListener implements LocationListener {
     }
 
     public float getDistanceOfJourney() {
-        if(locations.size() <= 1) {
+        if(locations.size() < 2) {
             return 0;
         }
 
-        total += locations.get(locations.size() - 2).distanceTo(locations.get(locations.size() - 1)) / 1000;
-        // distance from first location to last recorded location in km
+        if (lastSize < locations.size()) {
+            total += locations.get(locations.size() - 2).distanceTo(locations.get(locations.size() - 1)) / 1000;
+            lastSize = locations.size();
+        }
         return total;
     }
 
