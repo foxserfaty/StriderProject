@@ -126,7 +126,7 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         map.setMyLocationEnabled(true);
         map.getUiSettings().setMyLocationButtonEnabled(true);
         map.getUiSettings().setZoomControlsEnabled(true);
-        getDeviceLocation();
+       getDeviceLocation();
         locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, DEFAULT_INTERVAL).build();
         //  startLocationUpdates();
         map.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
@@ -162,7 +162,7 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     public void onMyLocationClick(@NonNull Location location) {
     }
 
-    private void getDeviceLocation() {
+    public void getDeviceLocation() {
         try {
             Task<Location> locationResult = fusedLocationClient.getLastLocation();
             locationResult.addOnCompleteListener(new OnCompleteListener<Location>() {
@@ -179,10 +179,10 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
                     } else {
                         map.moveCamera(CameraUpdateFactory
                                 .newLatLngZoom(defaultLocation, DEFAULT_ZOOM));
-
                     }
                 }
             });
+            Log.d(TAG, "my location");
         } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage(), e);
         }
@@ -248,4 +248,5 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     public void stopLocationUpdatesFromActivity() {
         stopLocationUpdates();
     }
+
 }

@@ -19,6 +19,7 @@ public class MyLocationActivity extends AppCompatActivity {
          setContentView(R.layout.fragment_map);
          FragmentManager fragmentManager = this.getSupportFragmentManager();
          this.myMap = (MapFragment) fragmentManager.findFragmentById(R.id.map_fragment);
+         myMap.getDeviceLocation();
         Button startTrackButton = findViewById(R.id.start_track);
         Button stopTrackButton = findViewById(R.id.stop_track);
         startTrackButton.setEnabled(true);
