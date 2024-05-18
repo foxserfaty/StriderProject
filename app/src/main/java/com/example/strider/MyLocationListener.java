@@ -41,8 +41,6 @@ public class MyLocationListener implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-        // called when the location is changed. Can obtain latitude, longitude, altitude.
-        // use location.distanceTo(otherLocation) to get a distance between two locations
         if(recordLocations) {
             locations.add(location);
         }

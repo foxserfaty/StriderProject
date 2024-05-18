@@ -9,23 +9,37 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.strider.ui.map.MapFragment;
-
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 
 public class MyLocationActivity extends AppCompatActivity {
     private MapFragment myMap;
+    private FusedLocationProviderClient fusedLocationClient;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         setContentView(R.layout.fragment_map);
-         FragmentManager fragmentManager = this.getSupportFragmentManager();
-         this.myMap = (MapFragment) fragmentManager.findFragmentById(R.id.map_fragment);
-         myMap.getDeviceLocation();
+        setContentView(R.layout.fragment_map);
+
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        this.myMap = (MapFragment) fragmentManager.findFragmentById(R.id.map_fragment);
+
+        if (myMap == null) {
+            myMap = new MapFragment();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.map_fragment, myMap)
+                    .commit();
+        }
+
+        fragmentManager.executePendingTransactions();
+
         Button startTrackButton = findViewById(R.id.start_track);
         Button stopTrackButton = findViewById(R.id.stop_track);
         startTrackButton.setEnabled(true);
         stopTrackButton.setEnabled(false);
         startTrackButton.setVisibility(View.VISIBLE);
         stopTrackButton.setVisibility(View.INVISIBLE);
+
         startTrackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -36,9 +50,9 @@ public class MyLocationActivity extends AppCompatActivity {
                     startTrackButton.setVisibility(View.INVISIBLE);
                     stopTrackButton.setVisibility(View.VISIBLE);
                 }
-
             }
         });
+
         stopTrackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,8 +65,5 @@ public class MyLocationActivity extends AppCompatActivity {
                 }
             }
         });
-
-
     }
-
 }

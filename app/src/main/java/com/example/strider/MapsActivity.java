@@ -1,6 +1,7 @@
 package com.example.strider;
 
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.FragmentActivity;
@@ -45,7 +46,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Cursor c = getContentResolver().query(JourneyProviderContract.LOCATION_URI,
                 null, JourneyProviderContract.L_JID + " = " + journeyID, null, null);
 
-        PolylineOptions line = new PolylineOptions().clickable(false).color(0xff00bfff);
+        PolylineOptions line = new PolylineOptions().clickable(false);
         LatLng firstLoc = null;
         LatLng lastLoc = null;
         try {
