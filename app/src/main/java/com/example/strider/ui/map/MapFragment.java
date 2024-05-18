@@ -51,7 +51,7 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private final LatLng defaultLocation = new LatLng(21.0501, 105.7502);
     private static final int DEFAULT_ZOOM = 16;
-    private static final int DEFAULT_INTERVAL = 1000;
+    private static final int DEFAULT_INTERVAL = 5000;
     private boolean locationPermissionGranted;
     private boolean myLocationFocus = false;
 
@@ -71,28 +71,24 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
                 }
             }
             mylocation = new LatLng(bestLocation.getLatitude(), bestLocation.getLongitude());
-
             locationList.add(mylocation);
-
+            drawPolyline(locationList.get(locationList.size()-1));
+            printCurrentLocation();
             if (!startTracking) {
                 startTracking = true;
                 markLocation(mylocation,"Start");
                 map.clear();
+                locationList.clear();
+                locationList.add(mylocation);
                 if (polyline != null) {
                     polyline.remove();
+                    polyline = null;
                 }
-
-
             }
             if (myLocationFocus) {
                 cameraFocus(bestLocation);
             }
-
-            drawPolyline();
-
-
         }
-
     };
 
     private void cameraFocus(Location location) {
@@ -229,24 +225,27 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         fusedLocationClient.removeLocationUpdates(locationCallback);
     }
 
-    private void drawPolyline() {
-        if (!locationList.isEmpty()) {
-            PolylineOptions polylineOptions = new PolylineOptions()
-                    .addAll(locationList)
-                    .color(Color.parseColor("#016CC3"))
-                    .width(12);
-
-            polyline = map.addPolyline(polylineOptions);
+    // Thêm đoạn mới vào Polyline hiện có
+    private void drawPolyline(LatLng latestLocation) {
+        if (locationList.size() >= 2) {
+            if (polyline != null) {
+                List<LatLng> points = polyline.getPoints();
+                points.add(latestLocation);
+                polyline.setPoints(points);
+            } else {
+                PolylineOptions polylineOptions = new PolylineOptions()
+                        .color(Color.parseColor("#016CC3"))
+                        .width(12)
+                        .addAll(locationList);
+                polyline = map.addPolyline(polylineOptions);
+            }
         }
     }
+
     public void startLocationUpdatesFromActivity() {
         startLocationUpdates();
     }
     public void stopLocationUpdatesFromActivity() {
         stopLocationUpdates();
     }
-
-
-
-
 }
