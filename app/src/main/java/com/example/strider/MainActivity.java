@@ -43,5 +43,10 @@ public class MainActivity extends AppCompatActivity {
         Intent myLocation = new Intent(MainActivity.this, MyLocationActivity.class);
         startActivity(myLocation);
     }
+    public void onClickSpotify(View v) {
+        // go to the activity for displaying statistics
+        Intent spotify= new Intent(MainActivity.this, SpotifyActivity.class);
+        startActivity(spotify);
+    }
 
 }

@@ -52,13 +52,15 @@ dependencies {
     implementation(libs.navigation.ui)
     implementation(libs.play.services.location)
     implementation(libs.mpandroidchart)
+    implementation(files("libs/spotify-app-remote-release-0.8.0.aar"))
+    implementation ("com.google.code.gson:gson:2.6.1")
+    implementation ("com.spotify.android:auth:1.2.5")
 
     testImplementation(libs.junit)
     testImplementation(libs.ext.junit)
     testImplementation("org.mockito:mockito-core:5.12.0")
     testImplementation("org.mockito:mockito-android:5.12.0")
     testImplementation("androidx.test:runner:1.4.0")
-
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation("org.mockito:mockito-core:5.12.0")
@@ -76,4 +78,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
     androidTestImplementation("com.google.truth:truth:1.1.3")
+
+
+
 }
