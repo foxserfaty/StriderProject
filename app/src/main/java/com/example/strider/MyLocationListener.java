@@ -45,19 +45,5 @@ public class MyLocationListener implements LocationListener {
             locations.add(location);
         }
     }
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-        // information about the signal, i.e. number of satellites
-        Log.d("mdp", "onStatusChanged: " + provider + " " + status);
-    }
-    @Override
-    public void onProviderEnabled(String provider) {
-        // the user enabled (for example) the GPS
-        Log.d("mdp", "onProviderEnabled: " + provider);
-    }
-    @Override
-    public void onProviderDisabled(String provider) {
-        // the user disabled (for example) the GPS
-        Log.d("mdp", "onProviderDisabled: " + provider);
-    }
+
 }

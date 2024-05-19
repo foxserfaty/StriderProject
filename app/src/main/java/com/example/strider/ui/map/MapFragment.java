@@ -3,22 +3,23 @@ package com.example.strider.ui.map;
 import static android.content.ContentValues.TAG;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Looper;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
+import com.example.strider.TrackingLocationService;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -29,7 +30,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
@@ -39,79 +39,76 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
 
     private GoogleMap map;
     private FusedLocationProviderClient fusedLocationClient;
-    private LocationRequest locationRequest;
+
     private List<LatLng> locationList = new ArrayList<>();
-    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+
     private final LatLng defaultLocation = new LatLng(21.0501, 105.7502);
     private static final int DEFAULT_ZOOM = 16;
-    private static final int DEFAULT_INTERVAL = 5000;
-    private boolean locationPermissionGranted;
+
+
     private boolean myLocationFocus = false;
 
     private Location lastKnownLocation;
     LatLng mylocation;
     private Polyline polyline;
     private boolean startTracking = false;
-
-    private LocationCallback locationCallback = new LocationCallback() {
+    private final BroadcastReceiver locationReceiver = new BroadcastReceiver() {
         @Override
-        public void onLocationResult(@NonNull LocationResult locationResult) {
-            super.onLocationResult(locationResult);
-            List<Location> locations = locationResult.getLocations();
-            Location bestLocation = locations.get(0);
-            for (Location location : locations) {
-                if (location.getAccuracy() < bestLocation.getAccuracy()) {
-                    bestLocation = location;
-                }
-            }
-            mylocation = new LatLng(bestLocation.getLatitude(), bestLocation.getLongitude());
+        public void onReceive(Context context, Intent intent) {
+            double latitude = intent.getDoubleExtra("latitude", 0.0);
+            double longitude = intent.getDoubleExtra("longitude", 0.0);
+            mylocation = new LatLng(latitude, longitude);
             locationList.add(mylocation);
-            drawPolyline(locationList.get(locationList.size() - 1));
+            drawPolyline(mylocation);
             printCurrentLocation();
             if (!startTracking) {
                 startTracking = true;
                 map.clear();
                 locationList.clear();
                 locationList.add(mylocation);
-                if (polyline != null) {
-                    polyline.remove();
-                    polyline = null;
-                }
-                markLocation(mylocation, "Start");
+                markLocation(mylocation);
             }
             if (myLocationFocus) {
-                cameraFocus(bestLocation);
+                cameraFocus(mylocation);
             }
         }
+
     };
 
-    private void cameraFocus(Location location) {
+
+
+
+    private void cameraFocus( LatLng myLocation) {
         if (map != null) {
             float currentZoom = map.getCameraPosition().zoom;
-            LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, currentZoom));
         }
     }
 
-    private void getLocationPermission() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            locationPermissionGranted = true;
-        } else {
-            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-        }
-    }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
     }
+    @Override
+    public void onResume() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireContext().registerReceiver(locationReceiver, new IntentFilter("LocationUpdate"), Context.RECEIVER_EXPORTED);
+        }
+        super.onResume();
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        requireContext().unregisterReceiver(locationReceiver);
+    }
 
     @Override
     public void onMapReady(@NonNull final GoogleMap gmap) {
         this.map = gmap;
         if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            getLocationPermission();
             return;
         }
         map.setMyLocationEnabled(true);
@@ -119,10 +116,8 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         map.getUiSettings().setZoomControlsEnabled(true);
         getDeviceLocation();
 
-        locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, DEFAULT_INTERVAL).build();
         map.setOnMyLocationButtonClickListener(() -> {
             myLocationFocus = true;
-            Log.d(TAG, "my location");
             return false;
         });
         map.setOnCameraMoveStartedListener(reason -> {
@@ -148,7 +143,7 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     public void getDeviceLocation() {
         if (map == null) return;
         try {
-            Task<Location> locationResult = fusedLocationClient.getLastLocation();
+            Task<Location> locationResult = fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null);
             locationResult.addOnCompleteListener(task -> {
                 if (task.isSuccessful() && task.getResult() != null) {
                     lastKnownLocation = task.getResult();
@@ -163,23 +158,32 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         }
     }
 
-    public void markLocation(LatLng myLocation, String title) {
+    public void markLocation(LatLng myLocation) {
         if (map != null) {
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(myLocation);
-            markerOptions.title(title);
             map.addMarker(markerOptions);
         }
     }
 
     private void startLocationUpdates() {
-        try {
-            fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
-        } catch (SecurityException e) {
-            Log.e(TAG, "Exception: " + e.getMessage(), e);
-        }
+      Intent intent = new Intent(requireActivity(), TrackingLocationService.class);
+      requireActivity().startService(intent);
     }
 
+
+    private void stopLocationUpdates() {
+        if (mylocation != null) {
+            markLocation(mylocation);
+            startTracking = false;
+        }
+        if (!locationList.isEmpty()) {
+            locationList.clear();
+        }
+
+        Intent intent = new Intent(requireActivity(), TrackingLocationService.class);
+        requireActivity().stopService(intent);
+    }
     private void printCurrentLocation() {
         if (mylocation != null) {
             double latitude = mylocation.latitude;
@@ -188,17 +192,6 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         } else {
             Log.d(TAG, "Current location is not available.");
         }
-    }
-
-    private void stopLocationUpdates() {
-        if (mylocation != null) {
-            markLocation(mylocation, "End");
-            startTracking = false;
-        }
-        if (!locationList.isEmpty()) {
-            locationList.clear();
-        }
-        fusedLocationClient.removeLocationUpdates(locationCallback);
     }
 
     private void drawPolyline(LatLng latestLocation) {

@@ -18,6 +18,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Strider"
         tools:targetApi="31">
+        <service
+            android:name=".TrackingLocationService"
+            android:enabled="true"
+            android:exported="true"/>
+
+
         <activity
             android:name=".SpotifyActivity"
             android:exported="false" />
