@@ -4,14 +4,17 @@ import static android.content.ContentValues.TAG;
 
 import android.Manifest;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -39,13 +42,13 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
 
     private GoogleMap map;
     private FusedLocationProviderClient fusedLocationClient;
+    private TrackingLocationService trackingLocationService;
+    private boolean isBound = false;
 
     private List<LatLng> locationList = new ArrayList<>();
 
     private final LatLng defaultLocation = new LatLng(21.0501, 105.7502);
     private static final int DEFAULT_ZOOM = 16;
-
-
     private boolean myLocationFocus = false;
 
     private Location lastKnownLocation;
@@ -74,7 +77,20 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         }
 
     };
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            TrackingLocationService.TrackingLocationServiceBinder binder = (TrackingLocationService.TrackingLocationServiceBinder) service;
+            trackingLocationService = binder.getService();
+            isBound = true;
+        }
 
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            trackingLocationService = null;
+            isBound = false;
+        }
+    };
 
 
 
@@ -91,7 +107,10 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
+        Intent intent = new Intent(requireActivity(), TrackingLocationService.class);
+        requireActivity().bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
+
     @Override
     public void onResume() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -167,11 +186,10 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     }
 
     private void startLocationUpdates() {
-      Intent intent = new Intent(requireActivity(), TrackingLocationService.class);
-      requireActivity().startService(intent);
+        if (trackingLocationService != null) {
+            trackingLocationService.startLocationUpdates();
+        }
     }
-
-
     private void stopLocationUpdates() {
         if (mylocation != null) {
             markLocation(mylocation);
@@ -180,9 +198,14 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         if (!locationList.isEmpty()) {
             locationList.clear();
         }
+        if (polyline != null)
+        {
+            polyline = null;
+        }
 
-        Intent intent = new Intent(requireActivity(), TrackingLocationService.class);
-        requireActivity().stopService(intent);
+        if (trackingLocationService != null) {
+            trackingLocationService.stopLocationUpdates();
+        }
     }
     private void printCurrentLocation() {
         if (mylocation != null) {

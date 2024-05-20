@@ -36,16 +36,6 @@
             android:name=".MapsActivity"
             android:exported="false"
             android:label="@string/title_activity_maps" />
-
-        <receiver
-            android:name=".MyReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BATTERY_LOW" />
-            </intent-filter>
-        </receiver>
-
         <activity
             android:name=".StatisticsActivity"
             android:exported="false"

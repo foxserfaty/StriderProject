@@ -50,7 +50,7 @@ public class LocationService extends Service {
 
         try {
             locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER, TIME_INTERVAL, DIST_INTERVAL, locationListener);
-        } catch(SecurityException e) {
+        } catch (SecurityException e) {
             // don't have the permission to access GPS
             Log.d("mdp", "No Permissions for GPS");
         }
@@ -59,17 +59,7 @@ public class LocationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        super.onStartCommand(intent,  flags, startId);
-
-        // broadcast receiver may send message about low battery in which bundle containing battery will exist
-        if(intent != null) {
-            Bundle b = intent.getExtras();
-            if(b != null && b.getBoolean("battery")) {
-                // slow down GPS request frequency
-                changeGPSRequestFrequency(TIME_INTERVAL * 3, DIST_INTERVAL * 3);
-            }
-        }
-
+        super.onStartCommand(intent, flags, startId);
         return START_NOT_STICKY;
     }
 
@@ -122,6 +112,7 @@ public class LocationService extends Service {
     public IBinder onBind(Intent intent) {
         return binder;
     }
+
     protected float getDistance() {
         return locationListener.getDistanceOfJourney();
     }
@@ -137,13 +128,12 @@ public class LocationService extends Service {
 
     /* Get the duration of the current journey */
     protected double getDuration() {
-        if(startTime == 0) {
+        if (startTime == 0) {
             return 0.0;
         }
-
         long endTime = SystemClock.elapsedRealtime();
 
-        if(stopTime != 0) {
+        if (stopTime != 0) {
             // saveJourney has been called, until playJourney is called again display constant time
             endTime = stopTime;
         }
@@ -167,7 +157,7 @@ public class LocationService extends Service {
         long journeyID = Long.parseLong(getContentResolver().insert(JourneyProviderContract.JOURNEY_URI, journeyData).getLastPathSegment());
 
         // for each location belonging to this journey save it to the location table linked to this journey
-        for(Location location : locationListener.getLocations()) {
+        for (Location location : locationListener.getLocations()) {
             ContentValues locationData = new ContentValues();
             locationData.put(JourneyProviderContract.L_JID, journeyID);
             locationData.put(JourneyProviderContract.L_ALTITUDE, location.getAltitude());
@@ -189,23 +179,13 @@ public class LocationService extends Service {
         Log.d("mdp", "Journey saved with id = " + journeyID);
     }
 
-    protected void changeGPSRequestFrequency(int time, int dist) {
-        // can be used ot change GPS request frequency for battery conservation
-        try {
-            locationManager.removeUpdates(locationListener);
-            locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER, time, dist, locationListener);
-            Log.d("mdp", "New min time = " + time + ", min dist = " + dist);
-        } catch(SecurityException e) {
-            // don't have the permission to access GPS
-            Log.d("mdp", "No Permissions for GPS");
-        }
-    }
+
 
 
     protected void notifyGPSEnabled() {
         try {
             locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER, 3, 3, locationListener);
-        } catch(SecurityException e) {
+        } catch (SecurityException e) {
             // don't have the permission to access GPS
             Log.d("mdp", "No Permissions for GPS");
         }
@@ -229,7 +209,9 @@ public class LocationService extends Service {
             return LocationService.this.getDuration();
         }
 
-        public boolean currentlyTracking() {return LocationService.this.currentlyTracking();}
+        public boolean currentlyTracking() {
+            return LocationService.this.currentlyTracking();
+        }
 
         public void playJourney() {
             LocationService.this.playJourney();
@@ -239,8 +221,9 @@ public class LocationService extends Service {
             LocationService.this.saveJourney();
         }
 
-        public void notifyGPSEnabled() { LocationService.this.notifyGPSEnabled();}
+        public void notifyGPSEnabled() {
+            LocationService.this.notifyGPSEnabled();
+        }
 
-        public void changeGPSRequestFrequency(int time, int dist) {LocationService.this.changeGPSRequestFrequency(time, dist);}
     }
 }
