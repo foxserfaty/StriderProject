@@ -113,4 +113,10 @@ public class MainActivity extends AppCompatActivity {
         Intent spotify = new Intent(MainActivity.this, SpotifyActivity.class);
         startActivity(spotify);
     }
+
+    public void onClickCustom(View v) {
+        // go to the activity for displaying the user's location
+        Intent custom = new Intent(MainActivity.this, CustomMapActivity.class);
+        startActivity(custom);
+    }
 }

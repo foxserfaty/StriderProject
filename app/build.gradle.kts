@@ -53,8 +53,9 @@ dependencies {
     implementation(libs.play.services.location)
     implementation(libs.mpandroidchart)
     implementation(files("libs/spotify-app-remote-release-0.8.0.aar"))
-    implementation ("com.google.code.gson:gson:2.6.1")
-    implementation ("com.spotify.android:auth:1.2.5")
+    implementation("com.google.code.gson:gson:2.6.1")
+    implementation("com.spotify.android:auth:1.2.5")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
 
     testImplementation(libs.junit)
     testImplementation(libs.ext.junit)
