@@ -189,6 +189,9 @@ import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.ContentApi;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
+import com.spotify.android.appremote.api.error.CouldNotFindSpotifyApp;
+import com.spotify.android.appremote.api.error.NotLoggedInException;
+import com.spotify.android.appremote.api.error.UserNotAuthorizedException;
 import com.spotify.protocol.client.ErrorCallback;
 import com.spotify.protocol.client.Subscription;
 import com.spotify.protocol.types.Capabilities;
@@ -414,6 +417,39 @@ public class SpotifyActivity extends FragmentActivity {
 
         onDisconnected();
         onConnectAndAuthorizedClicked(null);
+    }
+
+    Connector.ConnectionListener mConnectionListener = new Connector.ConnectionListener() {
+        @Override
+        public void onConnected(SpotifyAppRemote spotifyAppRemote) {
+            mSpotifyAppRemote = spotifyAppRemote;
+            // setup all the things
+        }
+
+        @Override
+        public void onFailure(Throwable error) {
+            if (error instanceof NotLoggedInException || error instanceof UserNotAuthorizedException) {
+                // Show login button and trigger the login flow from auth library when clicked
+            } else if (error instanceof CouldNotFindSpotifyApp) {
+                // Show button to download Spotify
+            }
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Connection setup moved to onStart()
+
+        SpotifyAppRemote.disconnect(mSpotifyAppRemote);
+
+        ConnectionParams connectionParams =
+                new ConnectionParams.Builder(CLIENT_ID)
+                        .setRedirectUri(REDIRECT_URI)
+                        .showAuthView(true)
+                        .build();
+
+        SpotifyAppRemote.connect(this, connectionParams, mConnectionListener);
     }
 
     @Override
