@@ -11,7 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.strider.customjourney.CustomJourney;
+import com.example.strider.customjourney.DogJourney;
 import com.example.strider.customjourney.PigJourney;
+import com.example.strider.customjourney.VNJourney;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -30,6 +33,7 @@ public class CustomMapActivity extends AppCompatActivity implements OnMapReadyCa
     List<LatLng> latLngList = new ArrayList<>();
     List<Marker> markerList = new ArrayList<>();
     Spinner spinner;
+    CustomJourney customJourney = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,8 +64,26 @@ public class CustomMapActivity extends AppCompatActivity implements OnMapReadyCa
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String selectedItem = parent.getItemAtPosition(position).toString();
-        if ("Pig journey".equals(selectedItem)) {
-            PigJourney pigJourney = new PigJourney(latLngList, mMap, polyline);
+        if (polyline != null) {
+            polyline.remove();
+        }
+        latLngList.clear();
+        switch (selectedItem) {
+            case "Pig journey":
+                if (customJourney != null)
+                    customJourney.removePolyline();
+                customJourney = new PigJourney(latLngList, mMap);
+                break;
+            case "Viet Nam Flag Journey":
+                if (customJourney != null)
+                    customJourney.removePolyline();
+                customJourney = new VNJourney(latLngList, mMap);
+                break;
+            case "Dog Journey":
+                if (customJourney != null)
+                    customJourney.removePolyline();
+                customJourney = new DogJourney(latLngList, mMap);
+                break;
         }
     }
 

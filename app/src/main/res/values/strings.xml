@@ -10,5 +10,7 @@
     <string-array name="journey_array">
         <item>Select journey</item>
         <item>Pig journey</item>
+        <item>Viet Nam Flag Journey</item>
+        <item>Dog Journey</item>
     </string-array>
 </resources>

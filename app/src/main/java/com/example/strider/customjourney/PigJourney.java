@@ -10,11 +10,10 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.List;
 
-public class PigJourney {
-    public PigJourney( List<LatLng> latLngList, GoogleMap mMap, Polyline polyline) {
-        if (polyline != null) {
-            polyline.remove();
-        }
+public class PigJourney extends CustomJourney {
+    public PigJourney(List<LatLng> latLngList, GoogleMap mMap) {
+
+        latLngList.clear();
         LatLng location10= new LatLng(21.00782,105.841375);
         latLngList.add(location10);
         LatLng location20= new LatLng(21.007775,105.841955);
@@ -775,5 +774,10 @@ public class PigJourney {
         mMap.getUiSettings().setZoomControlsEnabled(true);
         polyline = mMap.addPolyline(polylineOptions);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location10, 13.0f));
+    }
+
+    @Override
+    public void removePolyline() {
+        super.removePolyline();
     }
 }

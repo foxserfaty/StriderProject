@@ -51,7 +51,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .width(12);;
         LatLng firstLoc = null;
         LatLng lastLoc = null;
-        int index = 2990;
+        int index = 0;
         String string = "";
         try {
             while(c.moveToNext()) {
