@@ -6,4 +6,9 @@
     <string name="title_track">Track</string>
     <string name="title_goal">Goal</string>
     <string name="title_account">Account</string>
+
+    <string-array name="journey_array">
+        <item>Select journey</item>
+        <item>Pig journey</item>
+    </string-array>
 </resources>
