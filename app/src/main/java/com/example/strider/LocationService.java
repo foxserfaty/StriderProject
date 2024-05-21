@@ -35,7 +35,7 @@ public class LocationService extends Service {
     private final int NOTIFICATION_ID = 001;
     private long startTime = 0;
     private long stopTime = 0;
-    final int TIME_INTERVAL = 1;
+    final int TIME_INTERVAL = 3;
     final int DIST_INTERVAL = 3;
 
     @Override

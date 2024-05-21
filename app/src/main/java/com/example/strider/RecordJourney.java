@@ -173,7 +173,6 @@ public class RecordJourney extends AppCompatActivity {
 
     public void onClickPlay(View view) {
         if (myMap != null) {
-            locationService.startLocationUpdates();
             myMap.startLocationUpdates();
             playButton.setEnabled(false);
             stopButton.setEnabled(true);
@@ -186,12 +185,12 @@ public class RecordJourney extends AppCompatActivity {
         // save the current journey to the database
         double distance = locationService.getDistance();
 
-        locationService.stopLocationUpdates();
         myMap.stopLocationUpdates();
         playButton.setEnabled(true);
         stopButton.setEnabled(false);
         playButton.setVisibility(View.VISIBLE);
         stopButton.setVisibility(View.GONE);
+
 
         DialogFragment modal = FinishedTrackingDialogue.newInstance(String.format("%.2f KM", distance));
         modal.show(getSupportFragmentManager(), "Finished");

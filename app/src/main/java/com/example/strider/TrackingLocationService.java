@@ -133,6 +133,9 @@ public class TrackingLocationService extends Service {
     }
 
     public void startLocationUpdates() {
+        if (isJourneyStarted) {
+            return;
+        }
         createLocationCallback();
         LocationRequest locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, DEFAULT_INTERVAL).build();
         try {
@@ -143,6 +146,9 @@ public class TrackingLocationService extends Service {
 
     }
     public void stopLocationUpdates() {
+        if (!isJourneyStarted) {
+            return;
+        }
         fusedLocationClient.removeLocationUpdates(locationCallback);
         saveJourney();
         newJourney();
