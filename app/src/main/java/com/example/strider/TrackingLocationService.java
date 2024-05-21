@@ -195,8 +195,6 @@ public class TrackingLocationService extends Service {
             getContentResolver().insert(JourneyProviderContract.LOCATION_URI, locationData);
         }
 
-
-
         Log.d("mdp", "Journey saved with id = " + journeyID);
     }
 }

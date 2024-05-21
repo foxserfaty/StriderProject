@@ -74,8 +74,8 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
                 cameraFocus(mylocation);
             }
         }
-
     };
+
     public void setTrackingLocationService(TrackingLocationService service) {
         this.trackingLocationService = service;
     }

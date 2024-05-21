@@ -186,6 +186,7 @@ public class RecordJourney extends AppCompatActivity {
         double distance = locationService.getDistance();
 
         myMap.stopLocationUpdates();
+
         playButton.setEnabled(true);
         stopButton.setEnabled(false);
         playButton.setVisibility(View.VISIBLE);
@@ -219,7 +220,6 @@ public class RecordJourney extends AppCompatActivity {
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setMessage("Your Journey has been saved. You ran a total of " + getArguments().getString("distance") + " KM")
                     .setPositiveButton("Ok", new DialogInterface.OnClickListener() {

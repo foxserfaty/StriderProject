@@ -10,7 +10,7 @@
         android:id="@+id/spinner"
         android:layout_weight="12"/>
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/google_map"
