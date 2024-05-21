@@ -201,6 +201,9 @@ import com.spotify.protocol.types.PlaybackSpeed;
 import com.spotify.protocol.types.PlayerContext;
 import com.spotify.protocol.types.PlayerState;
 import com.spotify.protocol.types.Repeat;
+import com.spotify.sdk.android.auth.AuthorizationClient;
+import com.spotify.sdk.android.auth.AuthorizationRequest;
+import com.spotify.sdk.android.auth.AuthorizationResponse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -364,6 +367,15 @@ public class SpotifyActivity extends FragmentActivity {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.app_remote_layout);
+
+        //reate the authorization request
+        AuthorizationRequest.Builder builder =
+                new AuthorizationRequest.Builder(CLIENT_ID, AuthorizationResponse.Type.TOKEN, REDIRECT_URI);
+        builder.setScopes(new String[]{"streaming"});
+        AuthorizationRequest request = builder.build();
+
+        // Open the login activity for Spotify authorization
+        AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request);
 
         mConnectButton = findViewById(R.id.connect_button);
         mConnectAuthorizeButton = findViewById(R.id.connect_authorize_button);
