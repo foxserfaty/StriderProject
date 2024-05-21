@@ -63,7 +63,6 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
             mylocation = new LatLng(latitude, longitude);
             locationList.add(mylocation);
             drawPolyline(mylocation);
-            printCurrentLocation();
             if (!startTracking) {
                 startTracking = true;
                 map.clear();
@@ -77,6 +76,10 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         }
 
     };
+    public void setTrackingLocationService(TrackingLocationService service) {
+        this.trackingLocationService = service;
+    }
+
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -93,14 +96,12 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     };
 
 
-
-    private void cameraFocus( LatLng myLocation) {
+    private void cameraFocus(LatLng myLocation) {
         if (map != null) {
             float currentZoom = map.getCameraPosition().zoom;
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, currentZoom));
         }
     }
-
 
 
     @Override
@@ -118,6 +119,7 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         }
         super.onResume();
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -133,6 +135,11 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         map.setMyLocationEnabled(true);
         map.getUiSettings().setMyLocationButtonEnabled(true);
         map.getUiSettings().setZoomControlsEnabled(true);
+
+        map.setOnMyLocationButtonClickListener(() -> {
+            myLocationFocus = true;
+            return false;
+        });
         getDeviceLocation();
 
         map.setOnMyLocationButtonClickListener(() -> {
@@ -185,12 +192,14 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         }
     }
 
-    private void startLocationUpdates() {
+    public void startLocationUpdates() {
         if (trackingLocationService != null) {
             trackingLocationService.startLocationUpdates();
+            myLocationFocus = true;
         }
     }
-    private void stopLocationUpdates() {
+
+    public void stopLocationUpdates() {
         if (mylocation != null) {
             markLocation(mylocation);
             startTracking = false;
@@ -198,22 +207,13 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         if (!locationList.isEmpty()) {
             locationList.clear();
         }
-        if (polyline != null)
-        {
+        if (polyline != null) {
             polyline = null;
         }
+        myLocationFocus = false;
 
         if (trackingLocationService != null) {
             trackingLocationService.stopLocationUpdates();
-        }
-    }
-    private void printCurrentLocation() {
-        if (mylocation != null) {
-            double latitude = mylocation.latitude;
-            double longitude = mylocation.longitude;
-            Log.d(TAG, "Latitude: " + latitude + ", Longitude: " + longitude);
-        } else {
-            Log.d(TAG, "Current location is not available.");
         }
     }
 
@@ -233,11 +233,4 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         }
     }
 
-    public void startLocationUpdatesFromActivity() {
-        startLocationUpdates();
-    }
-
-    public void stopLocationUpdatesFromActivity() {
-        stopLocationUpdates();
-    }
 }

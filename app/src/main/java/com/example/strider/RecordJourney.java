@@ -3,38 +3,44 @@ package com.example.strider;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.PendingIntent;
+
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
+
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageView;
+
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+
+import com.example.strider.ui.map.MapFragment;
 
 public class RecordJourney extends AppCompatActivity {
 
-    private ImageView walk;
     private TrackingLocationService locationService;
-
     private TextView distanceText;
     private TextView avgSpeedText;
     private TextView durationText;
-
     private Button playButton;
     private Button stopButton;
+    private Button statButton;
+    private MapFragment myMap;
+    private LinearLayout statLayout;
     private static final int PERMISSION_GPS_CODE = 1;
 
     // will poll the location service for distance and duration
@@ -45,46 +51,43 @@ public class RecordJourney extends AppCompatActivity {
         public void onServiceConnected(ComponentName name, IBinder service) {
             TrackingLocationService.TrackingLocationServiceBinder binder = (TrackingLocationService.TrackingLocationServiceBinder) service;
             locationService = binder.getService();
-
+            myMap.setTrackingLocationService(locationService);
             // if currently tracking then enable stopButton and disable startButton
             initButtons();
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
+            new Thread(() -> {
 
-                    while (locationService != null) {
-                        // get the distance and duration from the surface
-                        double d = locationService.getDuration();
-                        long duration = (long) d;  // in seconds
-                        double distance = locationService.getDistance();
-                        long hours = duration / 3600;
-                        long minutes = (duration % 3600) / 60;
-                        long seconds = duration % 60;
+                while (locationService != null) {
+                    // get the distance and duration from the surface
+                    double d = locationService.getDuration();
+                    long duration = (long) d;  // in seconds
+                    double distance = locationService.getDistance();
+                    long hours = duration / 3600;
+                    long minutes = (duration % 3600) / 60;
+                    long seconds = duration % 60;
 
-                        double avgSpeed = 0;
-                        if (d != 0) {
-                            avgSpeed = distance / (d / 3600);
+                    double avgSpeed = 0;
+                    if (d != 0) {
+                        avgSpeed = distance / (d / 3600);
+                    }
+
+                    final String time = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+                    final String dist = String.format("%.2f KM", distance);
+                    final String avgs = String.format("%.2f KM/H", avgSpeed);
+
+                    postBack.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            // post back changes to UI thread
+                            durationText.setText(time);
+                            avgSpeedText.setText(avgs);
+                            distanceText.setText(dist);
                         }
+                    });
 
-                        final String time = String.format("%02d:%02d:%02d", hours, minutes, seconds);
-                        final String dist = String.format("%.2f KM", distance);
-                        final String avgs = String.format("%.2f KM/H", avgSpeed);
-
-                        postBack.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                // post back changes to UI thread
-                                durationText.setText(time);
-                                avgSpeedText.setText(avgs);
-                                distanceText.setText(dist);
-                            }
-                        });
-
-                        try {
-                            Thread.sleep(500);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                    try {
+                        Thread.sleep(500);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }).start();
@@ -125,10 +128,14 @@ public class RecordJourney extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_journey);
-
-        walk = findViewById(R.id.walk);
-
-
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        this.myMap = (MapFragment) fragmentManager.findFragmentById(R.id.map_fragment);
+        if (myMap == null) {
+            myMap = new MapFragment();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.map_fragment, myMap)
+                    .commit();
+        }
         distanceText = findViewById(R.id.distanceText);
         durationText = findViewById(R.id.durationText);
         avgSpeedText = findViewById(R.id.avgSpeedText);
@@ -136,6 +143,23 @@ public class RecordJourney extends AppCompatActivity {
         playButton = findViewById(R.id.startButton);
         stopButton = findViewById(R.id.stopButton);
 
+        Button statButton = findViewById(R.id.statButton);
+        LinearLayout statLayout = findViewById(R.id.statLayout);
+
+        statButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (statLayout.getVisibility() == View.VISIBLE) {
+                    Animation slideLeftAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_left);
+                    statLayout.startAnimation(slideLeftAnimation);
+                    statLayout.setVisibility(View.GONE);
+                } else {
+                    Animation slideRightAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_right);
+                    statLayout.startAnimation(slideRightAnimation);
+                    statLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         // connect to service to see if currently tracking before enabling a button
         stopButton.setEnabled(false);
         playButton.setEnabled(false);
@@ -148,27 +172,32 @@ public class RecordJourney extends AppCompatActivity {
     }
 
     public void onClickPlay(View view) {
-        locationService.startLocationUpdates();
-        playButton.setEnabled(false);
-        stopButton.setEnabled(true);
-        playButton.setVisibility(View.GONE);
-        stopButton.setVisibility(View.VISIBLE);
+        if (myMap != null) {
+            locationService.startLocationUpdates();
+            myMap.startLocationUpdates();
+            playButton.setEnabled(false);
+            stopButton.setEnabled(true);
+            playButton.setVisibility(View.GONE);
+            stopButton.setVisibility(View.VISIBLE);
+        }
     }
 
     public void onClickStop(View view) {
         // save the current journey to the database
         double distance = locationService.getDistance();
+
         locationService.stopLocationUpdates();
+        myMap.stopLocationUpdates();
         playButton.setEnabled(true);
         stopButton.setEnabled(false);
-
-
         playButton.setVisibility(View.VISIBLE);
         stopButton.setVisibility(View.GONE);
 
         DialogFragment modal = FinishedTrackingDialogue.newInstance(String.format("%.2f KM", distance));
         modal.show(getSupportFragmentManager(), "Finished");
     }
+
+
 
     @Override
     public void onDestroy() {
@@ -221,16 +250,13 @@ public class RecordJourney extends AppCompatActivity {
                     stopButton.setEnabled(false);
                     playButton.setEnabled(false);
                 }
-                return;
-
         }
     }
 
 
     public static class NoPermissionDialogue extends DialogFragment {
         public static NoPermissionDialogue newInstance() {
-            NoPermissionDialogue frag = new NoPermissionDialogue();
-            return frag;
+            return new NoPermissionDialogue();
         }
 
         @Override
@@ -243,10 +269,8 @@ public class RecordJourney extends AppCompatActivity {
                             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_GPS_CODE);
                         }
                     })
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            // dialogue was cancelled
-                        }
+                    .setNegativeButton("Cancel", (dialog, id) -> {
+                        // dialogue was cancelled
                     });
             // Create the AlertDialog object and return it
             return builder.create();

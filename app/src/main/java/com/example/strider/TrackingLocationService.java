@@ -30,6 +30,7 @@ public class TrackingLocationService extends Service {
     private static final String TAG = "TrackingLocationService";
     private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
+    private static TrackingLocationService instance;
     private static final int DEFAULT_INTERVAL = 1000;
     double total = 0;
     int lastSize = 0;
@@ -46,6 +47,10 @@ public class TrackingLocationService extends Service {
             return TrackingLocationService.this;
         }
     }
+    public static TrackingLocationService getInstance() {
+        return instance;
+    }
+
 
     @Override
     public void onCreate() {

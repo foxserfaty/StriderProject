@@ -17,8 +17,7 @@ import com.google.android.gms.location.LocationServices;
 
 public class MyLocationActivity extends AppCompatActivity {
     private MapFragment myMap;
-    private FusedLocationProviderClient fusedLocationClient;
-    private static final int REQUEST_WRITE_PERMISSION = 786;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,7 +47,7 @@ public class MyLocationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (myMap != null) {
-                    myMap.startLocationUpdatesFromActivity();
+                    myMap.startLocationUpdates();
                     startTrackButton.setEnabled(false);
                     stopTrackButton.setEnabled(true);
                     startTrackButton.setVisibility(View.INVISIBLE);
@@ -61,7 +60,7 @@ public class MyLocationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (myMap != null) {
-                    myMap.stopLocationUpdatesFromActivity();
+                    myMap.stopLocationUpdates();
                     startTrackButton.setEnabled(true);
                     stopTrackButton.setEnabled(false);
                     startTrackButton.setVisibility(View.VISIBLE);

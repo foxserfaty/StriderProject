@@ -6,38 +6,32 @@
     android:layout_height="match_parent"
     tools:context=".RecordJourney">
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/map_fragment"
+        android:name="com.example.strider.ui.map.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
+        android:id="@+id/statLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <ImageView
-                android:id="@+id/walk"
-                android:layout_width="161dp"
-                android:layout_height="800dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                app:srcCompat="@drawable/walk" />
-        </LinearLayout>
-
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="25dp"
+            android:background="#FFFFFF"
             tools:layout_editor_absoluteY="8dp">
-
 
             <TextView
                 android:id="@+id/avgSpeedText"
@@ -49,7 +43,6 @@
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView9"
                 app:layout_constraintEnd_toEndOf="parent" />
 
-
             <TextView
                 android:id="@+id/durationText"
                 android:layout_width="wrap_content"
@@ -60,7 +53,6 @@
 
                 app:layout_constraintBaseline_toBaselineOf="@+id/duration"
                 app:layout_constraintEnd_toEndOf="parent" />
-
 
             <TextView
                 android:id="@+id/distanceText"
@@ -109,40 +101,58 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/startButton"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:background="@drawable/round_button"
-                android:onClick="onClickPlay"
-                android:text="START"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.508"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/stopButton"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:background="@drawable/round_button"
-                android:onClick="onClickStop"
-                android:text="STOP"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.508"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
     </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/button_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/map_fragment">
+
+        <Button
+            android:id="@+id/startButton"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/round_button"
+            android:onClick="onClickPlay"
+            android:text="START"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="DuplicateClickableBoundsCheck" />
+
+        <Button
+            android:id="@+id/stopButton"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/round_button"
+            android:onClick="onClickStop"
+            android:text="STOP"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/statButton"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/round_button"
+            android:text="Stat"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
