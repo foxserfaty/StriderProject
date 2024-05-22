@@ -19,6 +19,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -36,7 +37,8 @@ public class RecordJourney extends AppCompatActivity {
     private TextView durationText;
     private Button playButton;
     private Button stopButton;
-    private Button statButton;
+    private ImageButton statButton;
+    private ImageButton spotifyButton;
     private MapFragment myMap;
     private LinearLayout statLayout;
     private static final int PERMISSION_GPS_CODE = 1;
@@ -141,12 +143,14 @@ public class RecordJourney extends AppCompatActivity {
         playButton = findViewById(R.id.startButton);
         stopButton = findViewById(R.id.stopButton);
 
-        Button statButton = findViewById(R.id.statButton);
-        LinearLayout statLayout = findViewById(R.id.statLayout);
-
+        statButton = findViewById(R.id.statButton);
+        spotifyButton = findViewById(R.id.spotify_button);
+        statLayout = findViewById(R.id.statLayout);
+        statLayout.setVisibility(View.GONE);
         statButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (statLayout.getVisibility() == View.VISIBLE) {
                     Animation slideLeftAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_left);
                     statLayout.startAnimation(slideLeftAnimation);
@@ -156,6 +160,13 @@ public class RecordJourney extends AppCompatActivity {
                     statLayout.startAnimation(slideRightAnimation);
                     statLayout.setVisibility(View.VISIBLE);
                 }
+            }
+        });
+        spotifyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent spotify = new Intent(RecordJourney.this, SpotifyActivity.class);
+                startActivity(spotify);
             }
         });
         // connect to service to see if currently tracking before enabling a button
@@ -172,6 +183,10 @@ public class RecordJourney extends AppCompatActivity {
     public void onClickPlay(View view) {
         if (myMap != null) {
             myMap.startLocationUpdates();
+            Animation slideRightAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_right);
+            statLayout.startAnimation(slideRightAnimation);
+            statLayout.setVisibility(View.VISIBLE);
+
             playButton.setEnabled(false);
             stopButton.setEnabled(true);
             playButton.setVisibility(View.GONE);

@@ -24,7 +24,6 @@ public class ViewSingleJourney extends AppCompatActivity {
     private TextView dateTV;
     private TextView ratingTV;
     private TextView titleTV;
-
     private long journeyID;
 
     private Handler h = new Handler();

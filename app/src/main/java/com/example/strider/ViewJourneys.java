@@ -23,8 +23,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Objects;
 
 public class ViewJourneys extends ListActivity {
     private TextView dateText;
@@ -116,7 +118,7 @@ public class ViewJourneys extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_journeys);
 
-        journeyNames = new ArrayList<JourneyItem>();
+        journeyNames = new ArrayList<>();
         adapter = new JourneyAdapter(this, R.layout.journeylist, journeyNames);
         setListAdapter(adapter);
         setUpDateDialogue();
@@ -136,16 +138,26 @@ public class ViewJourneys extends ListActivity {
                 startActivity(singleJourney);
             }
         });
+
+        setInitialDateToToday();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        // update the view in-case title or image was changed
+        // update the view in case title or image was changed
         String date = dateText.getText().toString();
         if(!date.toLowerCase().equals("select date")) {
             listJourneys(date);
         }
+    }
+
+    private void setInitialDateToToday() {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String currentDate = sdf.format(calendar.getTime());
+        dateText.setText(currentDate);
+        listJourneys(currentDate);
     }
 
     private void setUpDateDialogue() {
@@ -161,10 +173,10 @@ public class ViewJourneys extends ListActivity {
 
                 // if first time selecting date choose current date, else last selected date
                 if(dateText.getText().toString().toLowerCase().equals("select date")) {
-                    Calendar calender = Calendar.getInstance();
-                    yyyy = calender.get(Calendar.YEAR);
-                    mm = calender.get(Calendar.MONTH);
-                    dd = calender.get(Calendar.DAY_OF_MONTH);
+                    Calendar calendar = Calendar.getInstance();
+                    yyyy = calendar.get(Calendar.YEAR);
+                    mm = calendar.get(Calendar.MONTH);
+                    dd = calendar.get(Calendar.DAY_OF_MONTH);
                 } else {
                     String[] dateParts = dateText.getText().toString().split("/");
                     yyyy = Integer.parseInt(dateParts[2]);
@@ -177,33 +189,30 @@ public class ViewJourneys extends ListActivity {
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         dateListener,
                         yyyy, mm, dd);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
         });
 
-        dateListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int yyyy, int mm, int dd) {
-                // user has selected a date on which to view journeys
-                mm = mm + 1;
-                String date;
+        dateListener = (datePicker, yyyy, mm, dd) -> {
+            // user has selected a date on which to view journeys
+            mm = mm + 1;
+            String date;
 
-                // format the date so its like dd/mm/yyyy
-                if(mm < 10) {
-                     date = dd + "/0" + mm + "/" + yyyy;
-                } else {
-                    date = dd + "/" + mm + "/" + yyyy;
-                }
-
-                if(dd < 10) {
-                    date = "0" + date;
-                }
-
-                dateText.setText(date);
-
-                listJourneys(date);
+            // format the date so its like dd/mm/yyyy
+            if(mm < 10) {
+                date = dd + "/0" + mm + "/" + yyyy;
+            } else {
+                date = dd + "/" + mm + "/" + yyyy;
             }
+
+            if(dd < 10) {
+                date = "0" + date;
+            }
+
+            dateText.setText(date);
+
+            listJourneys(date);
         };
     }
 
@@ -221,7 +230,7 @@ public class ViewJourneys extends ListActivity {
         Log.d("mdp", "Journeys Loaded: " + c.getCount());
 
         // put cursor items into ArrayList and add those items to the adapter
-        journeyNames = new ArrayList<JourneyItem>();
+        journeyNames = new ArrayList<>();
         adapter.notifyDataSetChanged();
         adapter.clear();
         adapter.notifyDataSetChanged();
@@ -237,7 +246,7 @@ public class ViewJourneys extends ListActivity {
                 journeyNames.add(i);
             }
         } finally {
-            if(journeyNames != null && journeyNames.size() > 0) {
+            if(journeyNames != null && !journeyNames.isEmpty()) {
                 adapter.notifyDataSetChanged();
                 for(int i = 0; i < journeyNames.size(); i++) {
                     adapter.add(journeyNames.get(i));
