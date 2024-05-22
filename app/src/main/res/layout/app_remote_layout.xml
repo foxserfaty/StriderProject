@@ -12,7 +12,6 @@
         style="@style/Widget.Cat.Button.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="showCurrentPlayerContext"
         android:text="@string/title_player_context"
         android:textAllCaps="false"
         android:visibility="invisible"
@@ -29,8 +28,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:filterTouchesWhenObscured="false"
-        android:onClick="onSubscribedToPlayerContextButtonClicked"
         android:text="@string/subscribe_to_player_context"
+
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -48,7 +48,6 @@
         android:layout_marginLeft="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
-        android:onClick="onImageClicked"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,54 +56,15 @@
         app:layout_constraintVertical_bias="0.05"
         tools:srcCompat="@drawable/widget_placeholder" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/image_label"
-        style="@style/Widget.Cat.Button.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:onClick="onImageClicked"
-        android:text="@string/title_image_size"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/image"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subscribe_to_player_context_button"
-        app:layout_constraintTop_toTopOf="@+id/image"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/image_scale_type_label"
-        style="@style/Widget.Cat.Button.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:onClick="onImageScaleTypeClicked"
-        android:text="@string/title_image_scale_type"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/image"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/image"
-        app:layout_constraintTop_toBottomOf="@+id/subscribe_to_player_context_button"
-        app:layout_constraintTop_toTopOf="@+id/image"
-        app:layout_constraintVertical_bias="0.0" />
-
     <!-- Current Track -->
 
     <Button
         android:id="@+id/current_track_label"
         style="@style/Widget.Cat.Button.Small"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:lines="2"
-        android:onClick="showCurrentPlayerState"
         android:text="@string/title_current_track"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -120,9 +80,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:filterTouchesWhenObscured="false"
-        android:onClick="onSubscribedToPlayerStateButtonClicked"
         android:text="@string/subscribe_to_current_track"
         android:textAllCaps="false"
+
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -383,41 +344,7 @@
                 android:onClick="onGetFitnessRecommendedContentItemsClicked"
                 android:text="@string/browse_content" />
 
-            <Button
-                android:id="@+id/subscribe_to_capabilities"
-                style="@style/Widget.Cat.Button.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:filterTouchesWhenObscured="false"
-                android:onClick="onSubscribeToCapabilitiesClicked"
-                android:text="@string/subscribe_to_capabilities" />
 
-            <Button
-                android:id="@+id/get_collection_state"
-                style="@style/Widget.Cat.Button.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:filterTouchesWhenObscured="false"
-                android:onClick="onGetCollectionStateClicked"
-                android:text="@string/get_collection_state" />
-
-            <Button
-                android:id="@+id/remove_uri"
-                style="@style/Widget.Cat.Button.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:filterTouchesWhenObscured="false"
-                android:onClick="onRemoveUriClicked"
-                android:text="@string/remove_uri" />
-
-            <Button
-                android:id="@+id/save_uri"
-                style="@style/Widget.Cat.Button.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:filterTouchesWhenObscured="false"
-                android:onClick="onSaveUriClicked"
-                android:text="@string/save_uri" />
         </LinearLayout>
     </HorizontalScrollView>
 

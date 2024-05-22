@@ -1,167 +1,5 @@
 package com.example.strider;
 
-//import android.os.Bundle;
-//
-//import android.content.Intent;
-//import android.content.pm.PackageManager;
-//import android.os.Bundle;
-//import android.util.Log;
-//import android.view.View;
-//import android.widget.Button;
-//
-//import androidx.appcompat.app.AppCompatActivity;
-//
-//import com.spotify.android.appremote.api.ConnectionParams;
-//import com.spotify.android.appremote.api.Connector;
-//import com.spotify.android.appremote.api.SpotifyAppRemote;
-//import com.spotify.android.appremote.api.error.CouldNotFindSpotifyApp;
-//import com.spotify.android.appremote.api.error.NotLoggedInException;
-//import com.spotify.android.appremote.api.error.UserNotAuthorizedException;
-//import com.spotify.protocol.client.Subscription;
-//import com.spotify.protocol.types.PlayerState;
-//import com.spotify.protocol.types.Track;
-//import com.spotify.sdk.android.auth.AuthorizationClient;
-//import com.spotify.sdk.android.auth.AuthorizationRequest;
-//import com.spotify.sdk.android.auth.AuthorizationResponse;
-//
-//public class SpotifyActivity extends AppCompatActivity {
-//
-//    private static final String CLIENT_ID = "60b313d65f7348ae9c08ad18b9337243";
-//    private static final int REQUEST_CODE = 1337;
-//    private static final String REDIRECT_URI = "com.example.strider://callback";
-//    private static final String PLAYLIST_URI = "spotify:playlist:37i9dQZF1DX2sUQwD7tbmL";
-//
-//    private SpotifyAppRemote mSpotifyAppRemote;
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_spotify);
-//
-//        // Create the authorization request
-//        AuthorizationRequest.Builder builder =
-//                new AuthorizationRequest.Builder(CLIENT_ID, AuthorizationResponse.Type.TOKEN, REDIRECT_URI);
-//        builder.setScopes(new String[]{"streaming"});
-//        AuthorizationRequest request = builder.build();
-//
-//        // Open the login activity for Spotify authorization
-//        AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request);
-//
-//        Button playPlaylistButton = findViewById(R.id.playMusicButton);
-//
-//        // Set OnClickListener for the button
-//        playPlaylistButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Check if Spotify app is installed
-//                if (isSpotifyInstalled()) {
-//                    // Open Spotify app
-//                    openSpotify();
-//                } else {
-//                    Log.e("MainActivity", "Spotify app is not installed.");
-//                    // Handle case where Spotify app is not installed
-//                }
-//            }
-//        });
-//    }
-//
-//    private boolean isSpotifyInstalled() {
-//        PackageManager pm = getPackageManager();
-//        try {
-//            pm.getPackageInfo("com.spotify.music", PackageManager.GET_ACTIVITIES);
-//            return true;
-//        } catch (PackageManager.NameNotFoundException e) {
-//            return false;
-//        }
-//    }
-//
-//    private void openSpotify() {
-//        Intent intent = getPackageManager().getLaunchIntentForPackage("com.spotify.music");
-//        if (intent != null) {
-//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            startActivity(intent);
-//        } else {
-//            Log.e("MainActivity", "Error opening Spotify app.");
-//            // Handle error opening Spotify app
-//        }
-//    }
-//    Connector.ConnectionListener mConnectionListener = new Connector.ConnectionListener() {
-//        @Override
-//        public void onConnected(SpotifyAppRemote spotifyAppRemote) {
-//            mSpotifyAppRemote = spotifyAppRemote;
-//            // setup all the things
-//        }
-//
-//        @Override
-//        public void onFailure(Throwable error) {
-//            if (error instanceof NotLoggedInException || error instanceof UserNotAuthorizedException) {
-//                // Show login button and trigger the login flow from auth library when clicked
-//            } else if (error instanceof CouldNotFindSpotifyApp) {
-//                // Show button to download Spotify
-//            }
-//        }
-//    };
-//
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        // Connection setup moved to onStart()
-//
-//        SpotifyAppRemote.disconnect(mSpotifyAppRemote);
-//
-//        ConnectionParams connectionParams =
-//                new ConnectionParams.Builder(CLIENT_ID)
-//                        .setRedirectUri(REDIRECT_URI)
-//                        .showAuthView(true)
-//                        .build();
-//
-//        SpotifyAppRemote.connect(this, connectionParams, mConnectionListener);
-//    }
-//
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        // Disconnect from Spotify on activity stop
-//        SpotifyAppRemote.disconnect(mSpotifyAppRemote);
-//    }
-//
-//    private void connected() {
-//        // Play a playlist
-//        mSpotifyAppRemote.getPlayerApi().play(PLAYLIST_URI);
-//        // Subscribe to PlayerState
-//        mSpotifyAppRemote.getPlayerApi()
-//                .subscribeToPlayerState()
-//                .setEventCallback(playerState -> {
-//                    final Track track = playerState.track;
-//                    if (track != null) {
-//                        Log.d("MainActivity", track.name + " by " + track.artist.name);
-//                    }
-//                });
-//    }
-//
-//
-//}
-
-/*
- * Copyright (c) 2018 Spotify AB
- *
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -368,7 +206,7 @@ public class SpotifyActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.app_remote_layout);
 
-        //reate the authorization request
+        //Create the authorization request
         AuthorizationRequest.Builder builder =
                 new AuthorizationRequest.Builder(CLIENT_ID, AuthorizationResponse.Type.TOKEN, REDIRECT_URI);
         builder.setScopes(new String[]{"streaming"});
@@ -382,8 +220,6 @@ public class SpotifyActivity extends FragmentActivity {
         mPlayerContextButton = findViewById(R.id.current_context_label);
         mSubscribeToPlayerContextButton = findViewById(R.id.subscribe_to_player_context_button);
         mCoverArtImageView = findViewById(R.id.image);
-        mImageLabel = findViewById(R.id.image_label);
-        mImageScaleTypeLabel = findViewById(R.id.image_scale_type_label);
         mPlayerStateButton = findViewById(R.id.current_track_label);
         mSubscribeToPlayerStateButton = findViewById(R.id.subscribe_to_player_state_button);
         mPlaybackSpeedButton = findViewById(R.id.playback_speed_button);
@@ -403,8 +239,6 @@ public class SpotifyActivity extends FragmentActivity {
                         findViewById(R.id.disconnect_button),
                         mSubscribeToPlayerContextButton,
                         mSubscribeToPlayerStateButton,
-                        mImageLabel,
-                        mImageScaleTypeLabel,
                         mPlayPauseButton,
                         findViewById(R.id.seek_forward_button),
                         findViewById(R.id.seek_back_button),
@@ -418,10 +252,6 @@ public class SpotifyActivity extends FragmentActivity {
                         findViewById(R.id.play_album_button),
                         findViewById(R.id.play_artist_button),
                         findViewById(R.id.play_playlist_button),
-                        findViewById(R.id.subscribe_to_capabilities),
-                        findViewById(R.id.get_collection_state),
-                        findViewById(R.id.remove_uri),
-                        findViewById(R.id.save_uri),
                         findViewById(R.id.get_fitness_recommended_items_button),
                         mSeekBar);
 
@@ -506,10 +336,10 @@ public class SpotifyActivity extends FragmentActivity {
         mToggleRepeatButton.setImageResource(R.drawable.btn_repeat);
         mToggleShuffleButton.clearColorFilter();
         mToggleShuffleButton.setImageResource(R.drawable.btn_shuffle);
-        mPlayerContextButton.setVisibility(View.INVISIBLE);
-        mSubscribeToPlayerContextButton.setVisibility(View.VISIBLE);
-        mPlayerStateButton.setVisibility(View.INVISIBLE);
-        mSubscribeToPlayerStateButton.setVisibility(View.VISIBLE);
+        mPlayerContextButton.setVisibility(View.VISIBLE);
+        mSubscribeToPlayerContextButton.setVisibility(View.INVISIBLE);
+        mPlayerStateButton.setVisibility(View.VISIBLE);
+        mSubscribeToPlayerStateButton.setVisibility(View.INVISIBLE);
     }
 
     public void onConnectClicked(View v) {
@@ -552,77 +382,7 @@ public class SpotifyActivity extends FragmentActivity {
         onDisconnected();
     }
 
-    public void onImageClicked(View view) {
-        if (mSpotifyAppRemote != null) {
-            mSpotifyAppRemote
-                    .getPlayerApi()
-                    .getPlayerState()
-                    .setResultCallback(
-                            playerState -> {
-                                PopupMenu menu = new PopupMenu(this, view);
 
-                                menu.getMenu().add(720, 720, 0, "Large (720px)");
-                                menu.getMenu().add(480, 480, 1, "Medium (480px)");
-                                menu.getMenu().add(360, 360, 2, "Small (360px)");
-                                menu.getMenu().add(240, 240, 3, "X Small (240px)");
-                                menu.getMenu().add(144, 144, 4, "Thumbnail (144px)");
-
-                                menu.show();
-
-                                menu.setOnMenuItemClickListener(
-                                        item -> {
-                                            mSpotifyAppRemote
-                                                    .getImagesApi()
-                                                    .getImage(
-                                                            playerState.track.imageUri, Image.Dimension.values()[item.getOrder()])
-                                                    .setResultCallback(
-                                                            bitmap -> {
-                                                                mCoverArtImageView.setImageBitmap(bitmap);
-                                                                mImageLabel.setText(
-                                                                        String.format(
-                                                                                Locale.ENGLISH,
-                                                                                "%d x %d",
-                                                                                bitmap.getWidth(),
-                                                                                bitmap.getHeight()));
-                                                            });
-                                            return false;
-                                        });
-                            })
-                    .setErrorCallback(mErrorCallback);
-        }
-    }
-
-    public void onImageScaleTypeClicked(View view) {
-        if (mSpotifyAppRemote != null) {
-            mSpotifyAppRemote
-                    .getPlayerApi()
-                    .getPlayerState()
-                    .setResultCallback(
-                            playerState -> {
-                                PopupMenu menu = new PopupMenu(this, view);
-
-                                menu.getMenu().add(0, ImageView.ScaleType.CENTER.ordinal(), 0, "CENTER");
-                                menu.getMenu().add(1, ImageView.ScaleType.CENTER_CROP.ordinal(), 1, "CENTER_CROP");
-                                menu.getMenu()
-                                        .add(2, ImageView.ScaleType.CENTER_INSIDE.ordinal(), 2, "CENTER_INSIDE");
-                                menu.getMenu().add(3, ImageView.ScaleType.MATRIX.ordinal(), 3, "MATRIX");
-                                menu.getMenu().add(4, ImageView.ScaleType.FIT_CENTER.ordinal(), 4, "FIT_CENTER");
-                                menu.getMenu().add(4, ImageView.ScaleType.FIT_XY.ordinal(), 5, "FIT_XY");
-
-                                menu.show();
-
-                                menu.setOnMenuItemClickListener(
-                                        item -> {
-                                            mCoverArtImageView.setScaleType(
-                                                    ImageView.ScaleType.values()[item.getItemId()]);
-                                            mImageScaleTypeLabel.setText(
-                                                    ImageView.ScaleType.values()[item.getItemId()].toString());
-                                            return false;
-                                        });
-                            })
-                    .setErrorCallback(mErrorCallback);
-        }
-    }
 
     public void onPlayPodcastButtonClicked(View view) {
         playUri(PODCAST_URI);
@@ -648,7 +408,7 @@ public class SpotifyActivity extends FragmentActivity {
         mSpotifyAppRemote
                 .getPlayerApi()
                 .play(uri)
-                .setResultCallback(empty -> logMessage(getString(R.string.command_feedback, "play")))
+//                .setResultCallback(empty -> logMessage(getString(R.string.command_feedback, "play")))
                 .setErrorCallback(mErrorCallback);
     }
 
@@ -668,8 +428,6 @@ public class SpotifyActivity extends FragmentActivity {
         mSpotifyAppRemote
                 .getPlayerApi()
                 .toggleShuffle()
-                .setResultCallback(
-                        empty -> logMessage(getString(R.string.command_feedback, "toggle shuffle")))
                 .setErrorCallback(mErrorCallback);
     }
 
@@ -677,8 +435,6 @@ public class SpotifyActivity extends FragmentActivity {
         mSpotifyAppRemote
                 .getPlayerApi()
                 .toggleRepeat()
-                .setResultCallback(
-                        empty -> logMessage(getString(R.string.command_feedback, "toggle repeat")))
                 .setErrorCallback(mErrorCallback);
     }
 
@@ -686,8 +442,6 @@ public class SpotifyActivity extends FragmentActivity {
         mSpotifyAppRemote
                 .getPlayerApi()
                 .skipPrevious()
-                .setResultCallback(
-                        empty -> logMessage(getString(R.string.command_feedback, "skip previous")))
                 .setErrorCallback(mErrorCallback);
     }
 
@@ -701,15 +455,15 @@ public class SpotifyActivity extends FragmentActivity {
                                 mSpotifyAppRemote
                                         .getPlayerApi()
                                         .resume()
-                                        .setResultCallback(
-                                                empty -> logMessage(getString(R.string.command_feedback, "play")))
+//                                        .setResultCallback(
+//                                                empty -> logMessage(getString(R.string.command_feedback, "play")))
                                         .setErrorCallback(mErrorCallback);
                             } else {
                                 mSpotifyAppRemote
                                         .getPlayerApi()
                                         .pause()
-                                        .setResultCallback(
-                                                empty -> logMessage(getString(R.string.command_feedback, "pause")))
+//                                        .setResultCallback(
+//                                                empty -> logMessage(getString(R.string.command_feedback, "pause")))
                                         .setErrorCallback(mErrorCallback);
                             }
                         });
@@ -719,7 +473,7 @@ public class SpotifyActivity extends FragmentActivity {
         mSpotifyAppRemote
                 .getPlayerApi()
                 .skipNext()
-                .setResultCallback(data -> logMessage(getString(R.string.command_feedback, "skip next")))
+//                .setResultCallback(data -> logMessage(getString(R.string.command_feedback, "skip next")))
                 .setErrorCallback(mErrorCallback);
     }
 
@@ -727,7 +481,7 @@ public class SpotifyActivity extends FragmentActivity {
         mSpotifyAppRemote
                 .getPlayerApi()
                 .seekToRelativePosition(-15000)
-                .setResultCallback(data -> logMessage(getString(R.string.command_feedback, "seek back")))
+//                .setResultCallback(data -> logMessage(getString(R.string.command_feedback, "seek back")))
                 .setErrorCallback(mErrorCallback);
     }
 
@@ -735,7 +489,7 @@ public class SpotifyActivity extends FragmentActivity {
         mSpotifyAppRemote
                 .getPlayerApi()
                 .seekToRelativePosition(15000)
-                .setResultCallback(data -> logMessage(getString(R.string.command_feedback, "seek fwd")))
+//                .setResultCallback(data -> logMessage(getString(R.string.command_feedback, "seek fwd")))
                 .setErrorCallback(mErrorCallback);
     }
 
@@ -751,23 +505,23 @@ public class SpotifyActivity extends FragmentActivity {
                         mSpotifyAppRemote
                                 .getUserApi()
                                 .subscribeToCapabilities()
-                                .setEventCallback(
-                                        capabilities ->
-                                                logMessage(
-                                                        getString(
-                                                                R.string.on_demand_feedback,
-                                                                capabilities.canPlayOnDemand)))
+//                                .setEventCallback(
+//                                        capabilities ->
+//                                                logMessage(
+//                                                        getString(
+//                                                                R.string.on_demand_feedback,
+//                                                                capabilities.canPlayOnDemand)))
                                 .setErrorCallback(mErrorCallback);
 
         mSpotifyAppRemote
                 .getUserApi()
                 .getCapabilities()
-                .setResultCallback(
-                        capabilities ->
-                                logMessage(
-                                        getString(
-                                                R.string.on_demand_feedback,
-                                                capabilities.canPlayOnDemand)))
+//                .setResultCallback(
+//                        capabilities ->
+//                                logMessage(
+//                                        getString(
+//                                                R.string.on_demand_feedback,
+//                                                capabilities.canPlayOnDemand)))
                 .setErrorCallback(mErrorCallback);
     }
 
@@ -796,8 +550,8 @@ public class SpotifyActivity extends FragmentActivity {
         mSpotifyAppRemote
                 .getUserApi()
                 .addToLibrary(TRACK_URI)
-                .setResultCallback(
-                        empty -> logMessage(getString(R.string.command_feedback, getString(R.string.save_uri))))
+//                .setResultCallback(
+//                        empty -> logMessage(getString(R.string.command_feedback, getString(R.string.save_uri))))
                 .setErrorCallback(this::logError);
     }
 
@@ -842,11 +596,11 @@ public class SpotifyActivity extends FragmentActivity {
         mSpotifyAppRemote
                 .getConnectApi()
                 .connectSwitchToLocalDevice()
-                .setResultCallback(
-                        empty ->
-                                logMessage(
-                                        getString(
-                                                R.string.command_feedback, getString(R.string.connect_switch_to_local))))
+//                .setResultCallback(
+//                        empty ->
+//                                logMessage(
+//                                        getString(
+//                                                R.string.command_feedback, getString(R.string.connect_switch_to_local))))
                 .setErrorCallback(mErrorCallback);
     }
 
@@ -867,8 +621,8 @@ public class SpotifyActivity extends FragmentActivity {
                                 .setEventCallback(mPlayerContextEventCallback)
                                 .setErrorCallback(
                                         throwable -> {
-                                            mPlayerContextButton.setVisibility(View.INVISIBLE);
-                                            mSubscribeToPlayerContextButton.setVisibility(View.VISIBLE);
+                                            mPlayerContextButton.setVisibility(View.VISIBLE);
+                                            mSubscribeToPlayerContextButton.setVisibility(View.INVISIBLE);
                                             logError(throwable);
                                         });
     }
@@ -889,22 +643,22 @@ public class SpotifyActivity extends FragmentActivity {
                                 .getPlayerApi()
                                 .subscribeToPlayerState()
                                 .setEventCallback(mPlayerStateEventCallback)
-                                .setLifecycleCallback(
-                                        new Subscription.LifecycleCallback() {
-                                            @Override
-                                            public void onStart() {
-                                                logMessage("Event: start");
-                                            }
-
-                                            @Override
-                                            public void onStop() {
-                                                logMessage("Event: end");
-                                            }
-                                        })
+//                                .setLifecycleCallback(
+//                                        new Subscription.LifecycleCallback() {
+//                                            @Override
+//                                            public void onStart() {
+//                                                logMessage("Event: start");
+//                                            }
+//
+//                                            @Override
+//                                            public void onStop() {
+//                                                logMessage("Event: end");
+//                                            }
+//                                        })
                                 .setErrorCallback(
                                         throwable -> {
-                                            mPlayerStateButton.setVisibility(View.INVISIBLE);
-                                            mSubscribeToPlayerStateButton.setVisibility(View.VISIBLE);
+                                            mPlayerStateButton.setVisibility(View.VISIBLE);
+                                            mSubscribeToPlayerStateButton.setVisibility(View.INVISIBLE);
                                             logError(throwable);
                                         });
     }
@@ -945,12 +699,12 @@ public class SpotifyActivity extends FragmentActivity {
                     mSpotifyAppRemote
                             .getPlayerApi()
                             .setPodcastPlaybackSpeed(PlaybackSpeed.PodcastPlaybackSpeed.values()[item.getOrder()])
-                            .setResultCallback(
-                                    empty ->
-                                            logMessage(
-                                                    getString(
-                                                            R.string.command_feedback,
-                                                            getString(R.string.play_podcast_button_label))))
+//                            .setResultCallback(
+//                                    empty ->
+//                                            logMessage(
+//                                                    getString(
+//                                                            R.string.command_feedback,
+//                                                            getString(R.string.play_podcast_button_label))))
                             .setErrorCallback(mErrorCallback);
                     return false;
                 });

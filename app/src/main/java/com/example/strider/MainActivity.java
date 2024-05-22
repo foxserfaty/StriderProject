@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int PERMISSION_GPS_CODE = 1;
     private FusedLocationProviderClient fusedLocationClient;
-    ProgressDialog dialog;
 
     private TextView dateText;
     private DatePickerDialog.OnDateSetListener dateListener;
@@ -50,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
     private JourneyAdapter adapter;
     private ArrayList<JourneyItem> journeyNames;
 
-    /* Class to store all the information needed to display journey row item */
     private class JourneyItem {
         private String name;
         private String strUri;
@@ -81,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /* ListView should display journey name along side a custom image uploaded by the user */
     private class JourneyAdapter extends ArrayAdapter<JourneyItem> {
         private ArrayList<JourneyItem> items;
 
@@ -157,19 +154,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        dialog = new ProgressDialog(this);
-        dialog.setMessage("Getting location...");
-        dialog.setCancelable(false);
-        dialog.setInverseBackgroundForced(false);
-        dialog.show();
-
-        requestLocationPermission();
 
         journeyNames = new ArrayList<>();
         adapter = new JourneyAdapter(this, R.layout.journeylist, journeyNames);
 
         // Initialize ListView and set the adapter
-        journeyList = findViewById(R.id.listView); // Make sure this id matches your ListView id in XML
+        journeyList = findViewById(R.id.listView);
         journeyList.setAdapter(adapter);
 
         setUpDateDialogue();
@@ -179,7 +169,6 @@ public class MainActivity extends AppCompatActivity {
             JourneyItem o = (JourneyItem) journeyList.getItemAtPosition(position);
             long journeyID = o.get_id();
 
-            // start the single journey activity sending it the journeyID
             Bundle b = new Bundle();
             b.putLong("journeyID", journeyID);
             Intent singleJourney = new Intent(MainActivity.this, ViewSingleJourney.class);
@@ -218,7 +207,9 @@ public class MainActivity extends AppCompatActivity {
     private void getLocation() {
         try {
             Task<Location> locationResult = fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null);
-            locationResult.addOnCompleteListener(task -> dialog.hide());
+            locationResult.addOnCompleteListener(task -> {
+                // Hide the dialog or perform other actions once location is obtained
+            });
         } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage(), e);
         }
@@ -246,14 +237,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void setUpDateDialogue() {
         dateText = findViewById(R.id.selectDateText);
-        journeyList = findViewById(R.id.listView); // Make sure this id matches your ListView id in XML
+        journeyList = findViewById(R.id.listView);
 
         dateText.setOnClickListener(view -> {
             int yyyy;
             int mm;
             int dd;
 
-            // if first time selecting date choose current date, else last selected date
             if (dateText.getText().toString().toLowerCase().equals("select date")) {
                 Calendar calendar = Calendar.getInstance();
                 yyyy = calendar.get(Calendar.YEAR);
@@ -276,11 +266,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         dateListener = (datePicker, yyyy, mm, dd) -> {
-            // user has selected a date on which to view journeys
             mm = mm + 1;
             String date;
 
-            // format the date so its like dd/mm/yyyy
             if (mm < 10) {
                 date = dd + "/0" + mm + "/" + yyyy;
             } else {
@@ -296,9 +284,7 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
-    /* Query database to get all journeys in specified date in dd/mm/yyyy format and display them in listview */
     private void listJourneys(String date) {
-        // sqlite server expects yyyy-mm-dd
         String[] dateParts = date.split("/");
         date = dateParts[2] + "-" + dateParts[1] + "-" + dateParts[0];
 
@@ -309,7 +295,6 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("mdp", "Journeys Loaded: " + c.getCount());
 
-        // put cursor items into ArrayList and add those items to the adapter
         journeyNames = new ArrayList<>();
         adapter.notifyDataSetChanged();
         adapter.clear();
