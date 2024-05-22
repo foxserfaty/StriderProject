@@ -18,6 +18,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 "distance REAL NOT NULL," +
                 "date DATETIME NOT NULL," +
                 "name varchar(256) NOT NULL DEFAULT 'Recorded Journey'," +
+                "type varchar(256) NOT NULL DEFAULT 'WALK'," +
                 "rating INTEGER NOT NULL DEFAULT 1," +
                 "comment varchar(256) NOT NULL DEFAULT ''," +
                 "image varchar(256) DEFAULT NULL);");

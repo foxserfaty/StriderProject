@@ -17,10 +17,13 @@ import android.os.IBinder;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,9 +32,14 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
-public class RecordJourney extends AppCompatActivity {
+import com.example.strider.customjourney.DogJourney;
+import com.example.strider.customjourney.PigJourney;
+import com.example.strider.customjourney.VNJourney;
+
+public class RecordJourney extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private TrackingLocationService locationService;
+    Spinner spinner;
     private TextView distanceText;
     private TextView avgSpeedText;
     private TextView durationText;
@@ -45,6 +53,7 @@ public class RecordJourney extends AppCompatActivity {
 
     // will poll the location service for distance and duration
     private Handler postBack = new Handler();
+    private String typeJourney;
 
     private ServiceConnection lsc = new ServiceConnection() {
         @Override
@@ -122,6 +131,7 @@ public class RecordJourney extends AppCompatActivity {
             stopButton.setVisibility(View.GONE);
         }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,6 +155,18 @@ public class RecordJourney extends AppCompatActivity {
         spotifyButton = findViewById(R.id.spotify_button);
         statLayout = findViewById(R.id.statLayout);
         statLayout.setVisibility(View.GONE);
+
+
+        spinner = (Spinner) findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.type_array,
+                android.R.layout.simple_spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+        spinner.setEnabled(true);
         statButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -173,22 +195,25 @@ public class RecordJourney extends AppCompatActivity {
         handlePermissions();
         // start the service so that it persists outside of the lifetime of this activity
         // and also bind to it to gain control over the service
-        startService(new Intent(this, TrackingLocationService.class));
-        bindService(
-                new Intent(this, TrackingLocationService.class), lsc, Context.BIND_AUTO_CREATE);
+        Intent intent = new Intent(this, TrackingLocationService.class);
+        startService(intent);
+        bindService(intent, lsc, Context.BIND_AUTO_CREATE);
     }
 
     public void onClickPlay(View view) {
         if (myMap != null) {
             myMap.startLocationUpdates();
+            Intent intent = new Intent(this, TrackingLocationService.class);
+            intent.putExtra("typeJourney", typeJourney);
+            startService(intent);
             Animation slideRightAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_right);
             statLayout.startAnimation(slideRightAnimation);
             statLayout.setVisibility(View.VISIBLE);
-
             playButton.setEnabled(false);
             stopButton.setEnabled(true);
             playButton.setVisibility(View.GONE);
             stopButton.setVisibility(View.VISIBLE);
+            spinner.setEnabled(false);
         }
     }
 
@@ -202,12 +227,11 @@ public class RecordJourney extends AppCompatActivity {
         stopButton.setEnabled(false);
         playButton.setVisibility(View.VISIBLE);
         stopButton.setVisibility(View.GONE);
-
+        spinner.setEnabled(true);
 
         DialogFragment modal = FinishedTrackingDialogue.newInstance(String.format("%.2f KM", distance));
         modal.show(getSupportFragmentManager(), "Finished");
     }
-
 
 
     @Override
@@ -218,6 +242,27 @@ public class RecordJourney extends AppCompatActivity {
             unbindService(lsc);
             lsc = null;
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String selectedItem = parent.getItemAtPosition(position).toString();
+        switch (selectedItem) {
+            case "WALK":
+                typeJourney = "Walk";
+                break;
+            case "RUN":
+                typeJourney = "Run";
+                break;
+            case "CYCLE":
+                typeJourney = "Cycle";
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 
     public static class FinishedTrackingDialogue extends DialogFragment {

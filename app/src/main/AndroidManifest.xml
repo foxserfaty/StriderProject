@@ -55,10 +55,7 @@
             android:name=".ViewSingleJourney"
             android:exported="false"
             android:label="ViewSingleJourney" />
-        <activity
-            android:name=".ViewJourneys"
-            android:exported="false"
-            android:label="ViewJourneys" />
+
         <activity
             android:name=".MyLocationActivity"
             android:exported="false"
