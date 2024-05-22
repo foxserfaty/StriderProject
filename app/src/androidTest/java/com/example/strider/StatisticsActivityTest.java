@@ -49,14 +49,9 @@ public class StatisticsActivityTest {
     public void testDatePickerDialogue() {
         // Nhấn vào văn bản ngày để mở hộp thoại chọn ngày
         Espresso.onView(withId(R.id.Statistics_selectDate)).perform(ViewActions.click());
-
         // Chờ hộp thoại xuất hiện
         SystemClock.sleep(1000);
-
-        // Kiểm tra xem hộp thoại chọn ngày có hiển thị không
         Espresso.onView(withId(R.id.Statistics_selectDate)).check(matches(isDisplayed()));
-
-        // Đóng hộp thoại bằng cách nhấp vào OK
         Espresso.onView(withText("OK")).perform(ViewActions.click());
     }
 

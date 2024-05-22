@@ -56,12 +56,10 @@ public class RecordJourneyTest {
         // Check if start button is gone and stop button is visible after start button click
         Espresso.onView(withId(R.id.startButton)).check(matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
         Espresso.onView(withId(R.id.stopButton)).check(matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
-
         Espresso.onView(withId(R.id.stopButton)).perform(ViewActions.click());
         // Check if stop button is gone and start button is visible after stop button click
         Espresso.onView(withId(R.id.startButton)).check(matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
         Espresso.onView(withId(R.id.stopButton)).check(matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
-
         // Test Spotify button click
         Espresso.onView(withId(R.id.spotify_button)).perform(ViewActions.click());
         // Check if SpotifyActivity is launched after clicking the Spotify button

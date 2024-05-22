@@ -2,13 +2,19 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="DBHelperTest">
+      <entry key="MainActivityTest">
         <State />
       </entry>
-      <entry key="MainActivity">
+      <entry key="RecordJourneyTest">
+        <State />
+      </entry>
+      <entry key="StatisticsActivityTest">
         <State />
       </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="testButtonClicks()">
         <State />
       </entry>
     </value>

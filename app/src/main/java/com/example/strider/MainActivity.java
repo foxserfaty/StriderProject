@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     ProgressDialog dialog;
 
     private TextView dateText;
+    private TextView noJourneyTextView;
     private DatePickerDialog.OnDateSetListener dateListener;
 
     private ListView journeyList;
@@ -132,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setSelectedItemId(R.id.navigation_home);
+        noJourneyTextView = findViewById(R.id.noJourneyTextView);
         navView.setOnItemSelectedListener(menuItem -> {
             if (menuItem.getItemId() == R.id.navigation_home) {
                 return true;
@@ -309,11 +311,20 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("mdp", "Journeys Loaded: " + c.getCount());
 
-        // put cursor items into ArrayList and add those items to the adapter
-        journeyNames = new ArrayList<>();
-        adapter.notifyDataSetChanged();
-        adapter.clear();
-        adapter.notifyDataSetChanged();
+        // Clear previous journeyNames
+        journeyNames.clear();
+
+        if (c.getCount() == 0) {
+            // Nếu không có hành trình nào được tìm thấy, ẩn ListView và hiển thị TextView
+            journeyList.setVisibility(View.GONE);
+            noJourneyTextView.setVisibility(View.VISIBLE);
+        } else {
+            // Nếu có hành trình được tìm thấy, hiển thị ListView và ẩn TextView
+            journeyList.setVisibility(View.VISIBLE);
+            noJourneyTextView.setVisibility(View.GONE);
+        }
+
+        // Add cursor items into ArrayList and add those items to the adapter
         try {
             while (c.moveToNext()) {
                 JourneyItem i = new JourneyItem();
@@ -326,14 +337,11 @@ public class MainActivity extends AppCompatActivity {
                 journeyNames.add(i);
             }
         } finally {
-            if (journeyNames != null && !journeyNames.isEmpty()) {
-                adapter.notifyDataSetChanged();
-                for (int i = 0; i < journeyNames.size(); i++) {
-                    adapter.add(journeyNames.get(i));
-                }
-            }
             c.close();
-            adapter.notifyDataSetChanged();
         }
+
+        // Notify the adapter of data changes
+        adapter.notifyDataSetChanged();
     }
+
 }
