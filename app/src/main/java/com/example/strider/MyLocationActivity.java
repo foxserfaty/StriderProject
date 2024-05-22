@@ -148,6 +148,7 @@ public class MyLocationActivity extends AppCompatActivity implements AdapterView
                 Location lastKnownLocation = task.getResult();
                 LatLng mylocation = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
                 myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mylocation, 13.0f));
+
             } else {
                 myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(21.0501, 105.7502), 13.0f));
             }

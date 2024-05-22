@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -116,7 +115,7 @@ public class ViewJourneys extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_journeys);
+        setContentView(R.layout.activity_main);
 
         journeyNames = new ArrayList<>();
         adapter = new JourneyAdapter(this, R.layout.journeylist, journeyNames);
