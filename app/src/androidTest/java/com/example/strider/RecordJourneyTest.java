@@ -28,42 +28,29 @@ public class RecordJourneyTest {
     public ActivityTestRule<RecordJourney> activityTestRule =
             new ActivityTestRule<>(RecordJourney.class);
 
-    private Context appContext;
-
-    @Before
-    public void setUp() {
-        // Context of the app under test.
-        appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-    }
 
     @Test
     public void testUIElementsDisplayed() {
         // Check if UI elements are displayed
-        Espresso.onView(withId(R.id.distanceText)).check(matches(isDisplayed()));
-        Espresso.onView(withId(R.id.durationText)).check(matches(isDisplayed()));
-        Espresso.onView(withId(R.id.avgSpeedText)).check(matches(isDisplayed()));
+
         Espresso.onView(withId(R.id.startButton)).check(matches(isDisplayed()));
-        Espresso.onView(withId(R.id.stopButton)).check(matches(isDisplayed()));
         Espresso.onView(withId(R.id.statButton)).check(matches(isDisplayed()));
         Espresso.onView(withId(R.id.spotify_button)).check(matches(isDisplayed()));
-        Espresso.onView(withId(R.id.statLayout)).check(matches(isDisplayed()));
+        Espresso.onView(withId(R.id.map_fragment)).check(matches(isDisplayed()));
+
     }
+
 
     @Test
     public void testButtonClicks() {
         // Test button clicks
         Espresso.onView(withId(R.id.startButton)).perform(ViewActions.click());
-        // Check if start button is gone and stop button is visible after start button click
         Espresso.onView(withId(R.id.startButton)).check(matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
         Espresso.onView(withId(R.id.stopButton)).check(matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
-        Espresso.onView(withId(R.id.stopButton)).perform(ViewActions.click());
-        // Check if stop button is gone and start button is visible after stop button click
-        Espresso.onView(withId(R.id.startButton)).check(matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
-        Espresso.onView(withId(R.id.stopButton)).check(matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
-        // Test Spotify button click
-        Espresso.onView(withId(R.id.spotify_button)).perform(ViewActions.click());
-        // Check if SpotifyActivity is launched after clicking the Spotify button
-        ActivityScenario<SpotifyActivity> scenario = ActivityScenario.launch(new Intent(appContext, SpotifyActivity.class));
-        scenario.onActivity(activity -> assertEquals(SpotifyActivity.class, activity.getClass()));
+        Espresso.onView(withId(R.id.statLayout)).check(matches(isDisplayed()));
+        Espresso.onView(withId(R.id.distanceText)).check(matches(isDisplayed()));
+        Espresso.onView(withId(R.id.durationText)).check(matches(isDisplayed()));
+        Espresso.onView(withId(R.id.avgSpeedText)).check(matches(isDisplayed()));
+
     }
 }

@@ -2,19 +2,22 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="MainActivityTest">
-        <State />
-      </entry>
-      <entry key="RecordJourneyTest">
-        <State />
-      </entry>
-      <entry key="StatisticsActivityTest">
+      <entry key="MyLocationActivityTest">
         <State />
       </entry>
       <entry key="app">
         <State />
       </entry>
       <entry key="testButtonClicks()">
+        <State />
+      </entry>
+      <entry key="testDatePickerDialogue()">
+        <State />
+      </entry>
+      <entry key="testUIElementsDisplayed()">
+        <State />
+      </entry>
+      <entry key="testUIElementsDisplayed() (1)">
         <State />
       </entry>
     </value>

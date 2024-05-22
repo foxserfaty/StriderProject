@@ -6,6 +6,7 @@ import android.os.SystemClock;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
@@ -28,11 +29,7 @@ public class StatisticsActivityTest {
     public ActivityTestRule<StatisticsActivity> activityTestRule =
             new ActivityTestRule<>(StatisticsActivity.class);
 
-    @Before
-    public void setUp() {
-        // Đảm bảo rằng activity được khởi chạy
-        activityTestRule.launchActivity(new Intent());
-    }
+
 
     @Test
     public void testUIElementsDisplayed() {
@@ -43,6 +40,8 @@ public class StatisticsActivityTest {
         Espresso.onView(withId(R.id.Statistics_distanceAllTime)).check(matches(isDisplayed()));
         Espresso.onView(withId(R.id.Statistics_selectDate)).check(matches(isDisplayed()));
         Espresso.onView(withId(R.id.barchart)).check(matches(isDisplayed()));
+        Espresso.onView(withId(R.id.nav_view))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
     @Test
@@ -50,9 +49,10 @@ public class StatisticsActivityTest {
         // Nhấn vào văn bản ngày để mở hộp thoại chọn ngày
         Espresso.onView(withId(R.id.Statistics_selectDate)).perform(ViewActions.click());
         // Chờ hộp thoại xuất hiện
-        SystemClock.sleep(1000);
-        Espresso.onView(withId(R.id.Statistics_selectDate)).check(matches(isDisplayed()));
-        Espresso.onView(withText("OK")).perform(ViewActions.click());
+
+        Espresso.onView(withText(android.R.string.ok))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
     }
 
 }

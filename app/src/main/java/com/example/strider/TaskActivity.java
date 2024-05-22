@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -98,16 +99,21 @@ public class TaskActivity extends AppCompatActivity {
     private void checkSuccess() {
         if(Double.parseDouble(tasks[0]) >= Double.parseDouble(goals[0])) {
             kmSuccess.setText("Success");
+            kmSuccess.setTextColor(Color.parseColor("#5cb85c"));
         } else {
             kmSuccess.setText("Ongoing");
+            kmSuccess.setTextColor(Color.parseColor("#ffd32c"));
         }
 
         if(Double.parseDouble(tasks[1]) >= Double.parseDouble(goals[1])) {
             timeSuccess.setText("Success");
+            timeSuccess.setTextColor(Color.parseColor("#5cb85c"));
         } else {
             timeSuccess.setText("Ongoing");
+            timeSuccess.setTextColor(Color.parseColor("#ffd32c"));
         }
     }
+
 
     public String getTodayStat() {
         String stat = "";
