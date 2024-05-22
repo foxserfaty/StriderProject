@@ -140,14 +140,13 @@ public class MainActivity extends AppCompatActivity {
             } else if (menuItem.getItemId() == R.id.navigation_map) {
                 startActivity(new Intent(getApplicationContext(), MyLocationActivity.class));
                 overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
-                navView.setSelectedItemId(R.id.navigation_home);
                 return true;
             } else if (menuItem.getItemId() == R.id.navigation_track) {
                 startActivity(new Intent(getApplicationContext(), RecordJourney.class));
                 overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
                 return true;
             } else if (menuItem.getItemId() == R.id.navigation_goal) {
-                startActivity(new Intent(getApplicationContext(), MyLocationActivity.class));
+                startActivity(new Intent(getApplicationContext(), TaskActivity.class));
                 overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
                 return true;
             } else if (menuItem.getItemId() == R.id.navigation_account) {
