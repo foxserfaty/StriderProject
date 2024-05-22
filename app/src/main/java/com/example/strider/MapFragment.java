@@ -1,4 +1,4 @@
-package com.example.strider.ui.map;
+package com.example.strider;
 
 import static android.content.ContentValues.TAG;
 

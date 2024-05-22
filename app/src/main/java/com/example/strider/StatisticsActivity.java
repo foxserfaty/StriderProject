@@ -3,6 +3,7 @@ package com.example.strider;
 import static android.content.ContentValues.TAG;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -24,6 +25,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -48,7 +50,35 @@ public class StatisticsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
 
-
+        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView.setSelectedItemId(R.id.navigation_account);
+        navView.setOnItemSelectedListener(menuItem -> {
+            if (menuItem.getItemId() == R.id.navigation_account) {
+                return true;
+            }
+            else if (menuItem.getItemId() == R.id.navigation_map) {
+                startActivity(new Intent(getApplicationContext(), MyLocationActivity.class));
+                overridePendingTransition(R.anim.slide_right,R.anim.slide_left);
+                navView.setSelectedItemId(R.id.navigation_home);
+                return true;
+            }
+            else if (menuItem.getItemId() == R.id.navigation_track) {
+                startActivity(new Intent(getApplicationContext(), RecordJourney.class));
+                overridePendingTransition(R.anim.slide_right,R.anim.slide_left);
+                return true;
+            }
+            else if (menuItem.getItemId() == R.id.navigation_goal) {
+                startActivity(new Intent(getApplicationContext(), MyLocationActivity.class));
+                overridePendingTransition(R.anim.slide_right,R.anim.slide_left);
+                return true;
+            }
+            else if (menuItem.getItemId() == R.id.navigation_home) {
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                overridePendingTransition(R.anim.slide_right,R.anim.slide_left);
+                return true;
+            }
+            return false;
+        });
         recordDistance  = findViewById(R.id.Statistics_recordDistance);
         distanceToday   = findViewById(R.id.Statistics_distanceToday);
         timeToday       = findViewById(R.id.Statistics_timeToday);
@@ -59,6 +89,13 @@ public class StatisticsActivity extends AppCompatActivity {
         setUpDateDialogue();
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView.setSelectedItemId(R.id.navigation_account);
     }
 
     private void setUpDateDialogue() {
@@ -253,7 +290,6 @@ public class StatisticsActivity extends AppCompatActivity {
 
         barChart.getDescription().setText("Distance (KM)");
         bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
-
         barChart.animateY(3000);
     }
 }

@@ -2,8 +2,10 @@ package com.example.strider;
 
 import android.Manifest;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -13,18 +15,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+
 
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int PERMISSION_GPS_CODE = 1;
+
+    private static final int REQUEST_CODE_MY_LOCATION = 2;
     private FusedLocationProviderClient fusedLocationClient;
     ProgressDialog dialog;
 
@@ -33,8 +36,38 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView.setSelectedItemId(R.id.navigation_home);
+        navView.setOnItemSelectedListener(menuItem -> {
+            if (menuItem.getItemId() == R.id.navigation_home) {
+                return true;
+            }
+            else if (menuItem.getItemId() == R.id.navigation_map) {
+                startActivity(new Intent(getApplicationContext(), MyLocationActivity.class));
+                overridePendingTransition(R.anim.slide_right,R.anim.slide_left);
+                navView.setSelectedItemId(R.id.navigation_home);
+                return true;
+            }
+            else if (menuItem.getItemId() == R.id.navigation_track) {
+                startActivity(new Intent(getApplicationContext(), RecordJourney.class));
+                overridePendingTransition(R.anim.slide_right,R.anim.slide_left);
+                return true;
+            }
+            else if (menuItem.getItemId() == R.id.navigation_goal) {
+                startActivity(new Intent(getApplicationContext(), MyLocationActivity.class));
+                overridePendingTransition(R.anim.slide_right,R.anim.slide_left);
+                return true;
+            }
+            else if (menuItem.getItemId() == R.id.navigation_account) {
+                startActivity(new Intent(getApplicationContext(),StatisticsActivity.class));
+                overridePendingTransition(R.anim.slide_right,R.anim.slide_left);
+                return true;
+            }
+            return false;
+        });
 
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         dialog = new ProgressDialog(this);
         dialog.setMessage("Getting location...");
         dialog.setCancelable(false);
@@ -43,6 +76,17 @@ public class MainActivity extends AppCompatActivity {
 
         requestLocationPermission();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView.setSelectedItemId(R.id.navigation_home);
+
+    }
+
+
+
 
     private void requestLocationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -61,12 +105,7 @@ public class MainActivity extends AppCompatActivity {
     private void getLocation() {
         try {
             Task<Location> locationResult = fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null);
-            locationResult.addOnCompleteListener(new OnCompleteListener<Location>() {
-                @Override
-                public void onComplete(@NonNull Task<Location> task) {
-                    dialog.hide();
-                }
-            });
+            locationResult.addOnCompleteListener(task -> dialog.hide());
         } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage(), e);
         }

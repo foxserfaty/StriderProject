@@ -28,8 +28,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.strider.ui.map.MapFragment;
-
 public class RecordJourney extends AppCompatActivity {
 
     private TrackingLocationService locationService;
