@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
 
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -24,7 +25,8 @@
         <service
             android:name=".TrackingLocationService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true"
+            android:foregroundServiceType="location" />
 
         <activity
             android:name=".TaskActivity"

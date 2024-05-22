@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     } else {
-                        img.setImageDrawable(getResources().getDrawable(R.drawable.running));
+                        img.setImageDrawable(getResources().getDrawable(R.drawable.run));
                     }
                 }
             }
@@ -211,6 +211,12 @@ public class MainActivity extends AppCompatActivity {
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         PERMISSION_GPS_CODE);
             }
+            else {
+                getLocation();
+            }
+        }
+        else {
+            getLocation();
         }
     }
 

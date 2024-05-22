@@ -104,7 +104,7 @@ public class ViewJourneys extends ListActivity {
                         }
                     }
                     else {
-                        img.setImageDrawable(getResources().getDrawable(R.drawable.running));
+                        img.setImageDrawable(getResources().getDrawable(R.drawable.run));
                     }
                 }
             }
