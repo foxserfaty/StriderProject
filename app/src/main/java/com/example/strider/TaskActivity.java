@@ -58,8 +58,8 @@ public class TaskActivity extends AppCompatActivity {
         tasks = getTodayStat().split(",");
 
         if (tasks.length >= 2) {
-            kmTaskTV.setText(tasks[0] + "/" + goals[0]);
-            timeTaskTV.setText(tasks[1] + "/" + goals[1]);
+            kmTaskTV.setText(tasks[0] + "/" + goals[0] + " KM");
+            timeTaskTV.setText(tasks[1] + "/" + goals[1] + " Hours");
             checkSuccess();
         }
 
@@ -165,8 +165,8 @@ public class TaskActivity extends AppCompatActivity {
         enterTime.setText("");
 
         writeFileToInternalStorage(goals[0] + "," + goals[1]);
-        kmTaskTV.setText(tasks[0] + "/" + goals[0]);
-        timeTaskTV.setText(tasks[1] + "/" + goals[1]);
+        kmTaskTV.setText(tasks[0] + "/" + goals[0] + " KM");
+        timeTaskTV.setText(tasks[1] + "/" + goals[1] + " Hours");
 
         checkSuccess();
     }
@@ -190,8 +190,8 @@ public class TaskActivity extends AppCompatActivity {
             BufferedReader bufferedReader = new BufferedReader(isr);
             return bufferedReader.readLine();
         } catch (FileNotFoundException e) {
-            writeFileToInternalStorage("15,15");
-            return "15,15";
+            writeFileToInternalStorage("1,1");
+            return "1,1";
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {

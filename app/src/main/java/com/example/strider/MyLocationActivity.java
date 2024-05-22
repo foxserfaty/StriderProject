@@ -141,6 +141,7 @@ public class MyLocationActivity extends AppCompatActivity implements AdapterView
         }
         myMap.setMyLocationEnabled(true);
         myMap.getUiSettings().setMyLocationButtonEnabled(true);
+        myMap.getUiSettings().setZoomControlsEnabled(true);
         
         Task<Location> locationResult = fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null);
         locationResult.addOnCompleteListener(task -> {
