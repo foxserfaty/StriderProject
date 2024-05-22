@@ -26,6 +26,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
@@ -208,11 +210,7 @@ public class MainActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         PERMISSION_GPS_CODE);
-            } else {
-                getLocation();
             }
-        } else {
-            getLocation();
         }
     }
 
@@ -232,10 +230,13 @@ public class MainActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getLocation();
             } else {
+                Toast.makeText(this, "Strider needs your location", Toast.LENGTH_SHORT).show();
                 requestLocationPermission();
             }
         }
     }
+
+
 
     private void setInitialDateToToday() {
         Calendar calendar = Calendar.getInstance();

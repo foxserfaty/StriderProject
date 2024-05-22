@@ -7,6 +7,7 @@ import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
@@ -25,8 +26,8 @@ import static org.junit.Assert.assertEquals;
 public class RecordJourneyTest {
 
     @Rule
-    public ActivityTestRule<RecordJourney> activityTestRule =
-            new ActivityTestRule<>(RecordJourney.class);
+    public ActivityScenarioRule<RecordJourney> activityTestRule =
+            new ActivityScenarioRule<>(RecordJourney.class);
 
 
     @Test

@@ -122,8 +122,6 @@ public class RecordJourney extends AppCompatActivity {
             stopButton.setVisibility(View.GONE);
         }
     }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
