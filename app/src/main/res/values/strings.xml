@@ -15,7 +15,7 @@
     <string name="connect">Connect</string>
     <string name="authorize">Connect and Authorize</string>
     <string name="connecting">Connecting</string>
-    <string name="connected">Connected</string>
+    <string name="connected">Authorized</string>
     <string name="disconnect">Disconnect</string>
 
     <!-- Controls -->
@@ -35,7 +35,7 @@
     <string name="browse_content">Browse Content</string>
     <string name="subscribe_to_capabilities">Get Capabilities</string>
     <string name="subscribe_to_current_track">Subscribe to playerstate</string>
-    <string name="subscribe_to_player_context">Subscribe to playercontext</string>
+    <string name="subscribe_to_player_context">CURRENT TRACK...</string>
     <string name="title_player_context">Player Context</string>
     <string name="title_current_track">Current Track</string>
     <string name="title_image_size">Image size</string>
