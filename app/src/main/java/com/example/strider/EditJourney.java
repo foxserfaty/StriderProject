@@ -3,7 +3,6 @@ package com.example.strider;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -12,11 +11,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class EditJourney extends AppCompatActivity {
@@ -25,7 +25,7 @@ public class EditJourney extends AppCompatActivity {
     private ImageView journeyImg;
     EditText titleET;
     EditText commentET;
-    EditText ratingET;
+    Spinner ratingSpinner;
     private long journeyID;
 
     private Uri selectedJourneyImg;
@@ -40,8 +40,7 @@ public class EditJourney extends AppCompatActivity {
         journeyImg = findViewById(R.id.journeyImg);
         titleET = findViewById(R.id.titleEditText);
         commentET = findViewById(R.id.commentEditText);
-        ratingET = findViewById(R.id.ratingEditText);
-        //journeyID = bundle.getLong("journeyID");
+        ratingSpinner = findViewById(R.id.ratingSpinner);
 
         if (bundle != null) {
             journeyID = bundle.getLong("journeyID");
@@ -53,12 +52,8 @@ public class EditJourney extends AppCompatActivity {
         populateEditText();
     }
 
-    /* Save the new title, comment, image and rating to the DB */
     public void onClickSave(View v) {
-        int rating = checkRating(ratingET);
-        if(rating == -1) {
-            return;
-        }
+        int rating = ratingSpinner.getSelectedItemPosition() + 1;
 
         Uri rowQueryUri = Uri.withAppendedPath(JourneyProviderContract.JOURNEY_URI, "" + journeyID);
 
@@ -67,7 +62,7 @@ public class EditJourney extends AppCompatActivity {
         cv.put(JourneyProviderContract.J_COMMENT, commentET.getText().toString());
         cv.put(JourneyProviderContract.J_NAME, titleET.getText().toString());
 
-        if(selectedJourneyImg != null) {
+        if (selectedJourneyImg != null) {
             cv.put(JourneyProviderContract.J_IMAGE, selectedJourneyImg.toString());
         }
 
@@ -75,7 +70,6 @@ public class EditJourney extends AppCompatActivity {
         finish();
     }
 
-    /* Load activity to choose an image */
     public void onClickChangeImage(View v) {
         Intent photoPickerIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         photoPickerIntent.setType("image/*");
@@ -86,16 +80,12 @@ public class EditJourney extends AppCompatActivity {
     protected void onActivityResult(int reqCode, int resultCode, Intent data) {
         super.onActivityResult(reqCode, resultCode, data);
 
-        // get the URI from the selected image
-        switch(reqCode) {
+        switch (reqCode) {
             case RESULT_LOAD_IMG: {
                 if (resultCode == RESULT_OK) {
                     try {
                         final Uri imageUri = data.getData();
-
-                        // make the URI persistent
                         getContentResolver().takePersistableUriPermission(imageUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
                         final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                         final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                         journeyImg.setImageBitmap(selectedImage);
@@ -103,20 +93,18 @@ public class EditJourney extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
-                }else {
-                    Toast.makeText(EditJourney.this, "You didn't pick an Image",Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(EditJourney.this, "You didn't pick an Image", Toast.LENGTH_LONG).show();
                 }
+                break;
             }
         }
     }
 
-    /* Give the edit texts some initial text from what they were, get this by accessing DB */
     void populateEditText() {
-        Cursor c = getContentResolver().query(Uri.withAppendedPath(JourneyProviderContract.JOURNEY_URI,
-                journeyID + ""), null, null, null, null);
+        Cursor c = getContentResolver().query(Uri.withAppendedPath(JourneyProviderContract.JOURNEY_URI, journeyID + ""), null, null, null, null);
 
-        if(c.moveToFirst()) {
+        if (c.moveToFirst()) {
             int nameIndex = c.getColumnIndex(JourneyProviderContract.J_NAME);
             int commentIndex = c.getColumnIndex(JourneyProviderContract.J_COMMENT);
             int ratingIndex = c.getColumnIndex(JourneyProviderContract.J_RATING);
@@ -124,11 +112,10 @@ public class EditJourney extends AppCompatActivity {
 
             titleET.setText(c.getString(nameIndex));
             commentET.setText(c.getString(commentIndex));
-            ratingET.setText(c.getString(ratingIndex));
+            ratingSpinner.setSelection(c.getInt(ratingIndex) - 1);
 
-            // if an image has been set by user display it, else default image is displayed
             String strUri = c.getString(imageIndex);
-            if(strUri != null) {
+            if (strUri != null) {
                 try {
                     final Uri imageUri = Uri.parse(strUri);
                     final InputStream imageStream = getContentResolver().openInputStream(imageUri);
@@ -140,23 +127,7 @@ public class EditJourney extends AppCompatActivity {
             }
         }
     }
-
-    /* Ensure a rating is between 1-5 */
-    private int checkRating(EditText newRating) {
-        int rating;
-        try {
-            rating = Integer.parseInt(newRating.getText().toString());
-        } catch(Exception e) {
-            Log.d("mdp", "The following is not a number: " + newRating.getText().toString());
-            return -1;
-        }
-
-        if(rating < 0 || rating > 5) {
-            Log.d("mdp", "Rating must be between 0-5");
-            return -1;
-        }
-        return rating;
-    }
+    
 
     public void setJourneyID(int id) {
         this.journeyID = id;

@@ -201,7 +201,6 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
 
     public void stopLocationUpdates() {
         if (mylocation != null) {
-            markLocation(mylocation);
             startTracking = false;
         }
         if (!locationList.isEmpty()) {

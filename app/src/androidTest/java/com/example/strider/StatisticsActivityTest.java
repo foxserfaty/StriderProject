@@ -6,7 +6,9 @@ import android.os.SystemClock;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
@@ -25,14 +27,10 @@ import static org.junit.Assert.assertEquals;
 public class StatisticsActivityTest {
 
     @Rule
-    public ActivityTestRule<StatisticsActivity> activityTestRule =
-            new ActivityTestRule<>(StatisticsActivity.class);
+    public ActivityScenarioRule<StatisticsActivity> activityTestRule =
+            new ActivityScenarioRule<>(StatisticsActivity.class);
 
-    @Before
-    public void setUp() {
-        // Đảm bảo rằng activity được khởi chạy
-        activityTestRule.launchActivity(new Intent());
-    }
+
 
     @Test
     public void testUIElementsDisplayed() {
@@ -43,21 +41,19 @@ public class StatisticsActivityTest {
         Espresso.onView(withId(R.id.Statistics_distanceAllTime)).check(matches(isDisplayed()));
         Espresso.onView(withId(R.id.Statistics_selectDate)).check(matches(isDisplayed()));
         Espresso.onView(withId(R.id.barchart)).check(matches(isDisplayed()));
+        Espresso.onView(withId(R.id.nav_view))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
     @Test
     public void testDatePickerDialogue() {
         // Nhấn vào văn bản ngày để mở hộp thoại chọn ngày
         Espresso.onView(withId(R.id.Statistics_selectDate)).perform(ViewActions.click());
-
         // Chờ hộp thoại xuất hiện
-        SystemClock.sleep(1000);
 
-        // Kiểm tra xem hộp thoại chọn ngày có hiển thị không
-        Espresso.onView(withId(R.id.Statistics_selectDate)).check(matches(isDisplayed()));
+        Espresso.onView(withText(android.R.string.ok))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
-        // Đóng hộp thoại bằng cách nhấp vào OK
-        Espresso.onView(withText("OK")).perform(ViewActions.click());
     }
 
 }

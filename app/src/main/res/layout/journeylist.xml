@@ -18,11 +18,11 @@
             android:layout_alignBottom="@+id/journeyList_journeyImg"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginStart="49dp"
-            android:layout_marginLeft="49dp"
-            android:layout_marginEnd="27dp"
-            android:layout_marginRight="27dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginStart="62dp"
+            android:layout_marginLeft="62dp"
+            android:layout_marginEnd="33dp"
+            android:layout_marginRight="33dp"
+            android:layout_marginBottom="31dp"
             android:layout_toEndOf="@+id/journeyList_journeyImg"
             android:layout_toRightOf="@+id/journeyList_journeyImg"
             android:text="234"
@@ -32,13 +32,12 @@
 
         <ImageView
             android:id="@+id/journeyList_journeyImg"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            app:srcCompat="@drawable/running" />
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp" />
 
 
     </RelativeLayout>

@@ -55,13 +55,11 @@
         android:layout_marginBottom="10dp"
         android:text="Change Rating (must be between 1-5)" />
 
-    <EditText
-        android:id="@+id/ratingEditText"
+    <Spinner
+        android:id="@+id/ratingSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="3"
-        android:inputType="number" />
+        android:entries="@array/rating_array" />
 
     <ImageView
         android:id="@+id/journeyImg"

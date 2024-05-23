@@ -66,8 +66,8 @@ public class StatisticsActivity extends AppCompatActivity {
                 return true;
             }
             else if (menuItem.getItemId() == R.id.navigation_goal) {
-                startActivity(new Intent(getApplicationContext(), MyLocationActivity.class));
-                overridePendingTransition(R.anim.slide_right,R.anim.slide_left);
+                startActivity(new Intent(getApplicationContext(), TaskActivity.class));
+                overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
                 return true;
             }
             else if (menuItem.getItemId() == R.id.navigation_home) {

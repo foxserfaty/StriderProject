@@ -38,6 +38,7 @@ public class TrackingLocationService extends Service {
     private long startTime = 0;
     private long stopTime = 0;
     private boolean isJourneyStarted = false;
+    private String typeJourney;
 
     ArrayList<Location> locations = new ArrayList<>();
     private final IBinder binder = new TrackingLocationServiceBinder();
@@ -61,6 +62,9 @@ public class TrackingLocationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent != null) {
+          typeJourney = intent.getStringExtra("typeJourney");
+        }
         return START_STICKY;
     }
 
@@ -181,6 +185,8 @@ public class TrackingLocationService extends Service {
     public void saveJourney() {
         ContentValues journeyData = new ContentValues();
         journeyData.put(JourneyProviderContract.J_DISTANCE, getDistance());
+        journeyData.put(JourneyProviderContract.J_TYPE, typeJourney);
+        journeyData.put(JourneyProviderContract.J_NAME, typeJourney + " Journey");
         journeyData.put(JourneyProviderContract.J_DURATION, (long) getDuration());
         journeyData.put(JourneyProviderContract.J_DATE, getDateTime());
 

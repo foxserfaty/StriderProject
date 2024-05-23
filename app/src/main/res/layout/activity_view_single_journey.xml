@@ -168,12 +168,26 @@
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_margin="12dp"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:onClick="onClickEdit"
             android:padding="8dp"
             android:text="EDIT JOURNEY"
+            android:theme="@style/FlatButton"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:onClick="onClickDelete"
+            android:padding="8dp"
+            android:text="DELETE JOURNEY"
             android:theme="@style/FlatButton"
             android:textColor="@color/colorPrimary"
             app:layout_constraintStart_toStartOf="parent" />

@@ -74,7 +74,7 @@ public class MyLocationActivity extends AppCompatActivity implements AdapterView
                 overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
                 return true;
             } else if (menuItem.getItemId() == R.id.navigation_goal) {
-                startActivity(new Intent(getApplicationContext(), MyLocationActivity.class));
+                startActivity(new Intent(getApplicationContext(), TaskActivity.class));
                 overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
                 return true;
             } else if (menuItem.getItemId() == R.id.navigation_account) {
@@ -141,6 +141,7 @@ public class MyLocationActivity extends AppCompatActivity implements AdapterView
         }
         myMap.setMyLocationEnabled(true);
         myMap.getUiSettings().setMyLocationButtonEnabled(true);
+        myMap.getUiSettings().setZoomControlsEnabled(true);
         
         Task<Location> locationResult = fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null);
         locationResult.addOnCompleteListener(task -> {

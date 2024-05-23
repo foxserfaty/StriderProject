@@ -1,6 +1,8 @@
 package com.example.strider;
 
 import androidx.test.espresso.Espresso;
+import androidx.test.espresso.assertion.ViewAssertions;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
 import org.junit.Rule;
@@ -16,15 +18,17 @@ public class MyLocationActivityTest {
     public ActivityScenarioRule<MyLocationActivity> activityScenarioRule =
             new ActivityScenarioRule<>(MyLocationActivity.class);
 
-    @Test
-    public void testSpinnerDisplayed() {
-        // Kiểm tra xem Spinner có được hiển thị không
-        Espresso.onView(withId(R.id.spinner)).check(matches(isDisplayed()));
-    }
 
     @Test
-    public void testMapFragmentDisplayed() {
-        // Kiểm tra xem MapFragment có được hiển thị không
+    public void testViewsVisible() {
+        // Kiểm tra xem Spinner có được hiển thị không
+        Espresso.onView(withId(R.id.spinner)).check(matches(isDisplayed()));
+
+
         Espresso.onView(withId(R.id.map_fragment)).check(matches(isDisplayed()));
+
+        Espresso.onView(withId(R.id.nav_view))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
+
 }
