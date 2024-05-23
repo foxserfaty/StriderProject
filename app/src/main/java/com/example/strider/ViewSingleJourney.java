@@ -84,6 +84,13 @@ public class ViewSingleJourney extends AppCompatActivity {
         startActivity(map);
     }
 
+    public void onClickDelete(View v) {
+        Uri journeyUri = Uri.withAppendedPath(JourneyProviderContract.JOURNEY_URI, String.valueOf(journeyID));
+        int rowsDeleted = getContentResolver().delete(journeyUri, null, null);
+
+        finish();
+    }
+
     private void populateView() {
         // use content provider to load data from the database and display on the text views
         Cursor c = getContentResolver().query(Uri.withAppendedPath(JourneyProviderContract.JOURNEY_URI,
