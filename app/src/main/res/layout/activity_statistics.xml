@@ -105,7 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
                 android:layout_marginTop="25dp"
-                android:text="Time Running:"
+                android:text="Time :"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"

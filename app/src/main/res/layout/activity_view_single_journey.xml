@@ -189,7 +189,7 @@
             android:padding="8dp"
             android:text="DELETE JOURNEY"
             android:theme="@style/FlatButton"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorAccent"
             app:layout_constraintStart_toStartOf="parent" />
 
     </LinearLayout>

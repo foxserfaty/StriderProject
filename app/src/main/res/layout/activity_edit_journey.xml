@@ -71,6 +71,8 @@
         android:id="@+id/button4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/roundbutton"
+        android:textColor="#FFFFFF"
         android:onClick="onClickChangeImage"
         android:text="Change Image" />
 
