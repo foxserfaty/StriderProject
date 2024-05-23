@@ -258,8 +258,8 @@ public class MainActivity extends AppCompatActivity {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getLocation();
                 } else {
-                    Toast.makeText(this, "Strider needs your location", Toast.LENGTH_SHORT).show();
-                    requestLocationPermission();
+                    Toast.makeText(this, "Strider needs your location, " +
+                            "go to app info and enable Location for access", Toast.LENGTH_LONG).show();
                 }
             }
         }
