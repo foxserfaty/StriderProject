@@ -127,7 +127,7 @@ public class EditJourney extends AppCompatActivity {
             }
         }
     }
-    
+
 
     public void setJourneyID(int id) {
         this.journeyID = id;

@@ -23,7 +23,7 @@ public class MyLocationListener implements LocationListener {
     }
 
     public float getDistanceOfJourney() {
-        if(locations.size() < 2) {
+        if (locations.size() < 2) {
             return 0;
         }
 
@@ -41,7 +41,7 @@ public class MyLocationListener implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-        if(recordLocations) {
+        if (recordLocations) {
             locations.add(location);
         }
     }

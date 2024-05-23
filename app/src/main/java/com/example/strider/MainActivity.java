@@ -149,52 +149,52 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-            BottomNavigationView navView = findViewById(R.id.nav_view);
-            navView.setSelectedItemId(R.id.navigation_home);
-            noJourneyTextView = findViewById(R.id.noJourneyTextView);
-            navView.setOnItemSelectedListener(menuItem -> {
-                if (menuItem.getItemId() == R.id.navigation_home) {
-                    return true;
-                } else if (menuItem.getItemId() == R.id.navigation_map) {
-                    startActivity(new Intent(getApplicationContext(), MyLocationActivity.class));
-                    overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
-                    return true;
-                } else if (menuItem.getItemId() == R.id.navigation_track) {
-                    startActivity(new Intent(getApplicationContext(), RecordJourney.class));
-                    overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
-                    return true;
-                } else if (menuItem.getItemId() == R.id.navigation_goal) {
-                    startActivity(new Intent(getApplicationContext(), TaskActivity.class));
-                    overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
-                    return true;
-                } else if (menuItem.getItemId() == R.id.navigation_account) {
-                    startActivity(new Intent(getApplicationContext(), StatisticsActivity.class));
-                    overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
-                    return true;
-                }
-                return false;
-            });
+        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView.setSelectedItemId(R.id.navigation_home);
+        noJourneyTextView = findViewById(R.id.noJourneyTextView);
+        navView.setOnItemSelectedListener(menuItem -> {
+            if (menuItem.getItemId() == R.id.navigation_home) {
+                return true;
+            } else if (menuItem.getItemId() == R.id.navigation_map) {
+                startActivity(new Intent(getApplicationContext(), MyLocationActivity.class));
+                overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
+                return true;
+            } else if (menuItem.getItemId() == R.id.navigation_track) {
+                startActivity(new Intent(getApplicationContext(), RecordJourney.class));
+                overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
+                return true;
+            } else if (menuItem.getItemId() == R.id.navigation_goal) {
+                startActivity(new Intent(getApplicationContext(), TaskActivity.class));
+                overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
+                return true;
+            } else if (menuItem.getItemId() == R.id.navigation_account) {
+                startActivity(new Intent(getApplicationContext(), StatisticsActivity.class));
+                overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
+                return true;
+            }
+            return false;
+        });
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-            journeyNames = new ArrayList<>();
-            adapter = new JourneyAdapter(this, R.layout.journeylist, journeyNames);
+        journeyNames = new ArrayList<>();
+        adapter = new JourneyAdapter(this, R.layout.journeylist, journeyNames);
 
         // Initialize ListView and set the adapter
         journeyList = findViewById(R.id.listView);
         journeyList.setAdapter(adapter);
 
-            setUpDateDialogue();
+        setUpDateDialogue();
 
-            journeyList.setClickable(true);
-            journeyList.setOnItemClickListener((arg0, arg1, position, arg3) -> {
-                JourneyItem o = (JourneyItem) journeyList.getItemAtPosition(position);
-                long journeyID = o.get_id();
+        journeyList.setClickable(true);
+        journeyList.setOnItemClickListener((arg0, arg1, position, arg3) -> {
+            JourneyItem o = (JourneyItem) journeyList.getItemAtPosition(position);
+            long journeyID = o.get_id();
 
             Bundle b = new Bundle();
             b.putLong("journeyID", journeyID);
@@ -203,33 +203,29 @@ public class MainActivity extends AppCompatActivity {
             startActivity(singleJourney);
         });
 
-            setInitialDateToToday();
-        }
+        setInitialDateToToday();
+    }
 
-        @Override
-        protected void onResume() {
-            super.onResume();
-            BottomNavigationView navView = findViewById(R.id.nav_view);
-            navView.setSelectedItemId(R.id.navigation_home);
-            String date = dateText.getText().toString();
-            if (!date.toLowerCase().equals("select date")) {
-                listJourneys(date);
-            }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView.setSelectedItemId(R.id.navigation_home);
+        String date = dateText.getText().toString();
+        if (!date.toLowerCase().equals("select date")) {
+            listJourneys(date);
         }
+    }
 
-        private void requestLocationPermission() {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(this,
-                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                            PERMISSION_GPS_CODE);
-                } else {
-                    getLocation();
-                }
-            } else {
-                getLocation();
-            }
+    private void requestLocationPermission() {
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSION_GPS_CODE);
+        } else {
+            getLocation();
         }
+    }
 
     private void getLocation() {
         try {
@@ -242,36 +238,35 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-        @Override
-        public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-            if (requestCode == PERMISSION_GPS_CODE) {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getLocation();
-                } else {
-                    Toast.makeText(this, "Strider needs your location, " +
-                            "go to app info and enable Location for access", Toast.LENGTH_LONG).show();
-                }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_GPS_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getLocation();
+            } else {
+                Toast.makeText(this, "Strider needs your location, " +
+                        "go to app info and enable Location for access", Toast.LENGTH_LONG).show();
             }
         }
+    }
 
-
-        private void setInitialDateToToday() {
-            Calendar calendar = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            String currentDate = sdf.format(calendar.getTime());
-            dateText.setText(currentDate);
-            listJourneys(currentDate);
-        }
+    private void setInitialDateToToday() {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String currentDate = sdf.format(calendar.getTime());
+        dateText.setText(currentDate);
+        listJourneys(currentDate);
+    }
 
     private void setUpDateDialogue() {
         dateText = findViewById(R.id.selectDateText);
         journeyList = findViewById(R.id.listView);
 
-            dateText.setOnClickListener(view -> {
-                int yyyy;
-                int mm;
-                int dd;
+        dateText.setOnClickListener(view -> {
+            int yyyy;
+            int mm;
+            int dd;
 
             if (dateText.getText().toString().toLowerCase().equals("select date")) {
                 Calendar calendar = Calendar.getInstance();
@@ -285,48 +280,46 @@ public class MainActivity extends AppCompatActivity {
                 dd = Integer.parseInt(dateParts[0]);
             }
 
-                DatePickerDialog dialog = new DatePickerDialog(
-                        MainActivity.this,
-                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                        dateListener,
-                        yyyy, mm, dd);
-                Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
-            });
+            DatePickerDialog dialog = new DatePickerDialog(
+                    MainActivity.this,
+                    android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                    dateListener,
+                    yyyy, mm, dd);
+            Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+        });
 
         dateListener = (datePicker, yyyy, mm, dd) -> {
             mm = mm + 1;
             String date;
-
             if (mm < 10) {
                 date = dd + "/0" + mm + "/" + yyyy;
             } else {
                 date = dd + "/" + mm + "/" + yyyy;
             }
-
-                if (dd < 10) {
-                    date = "0" + date;
-                }
-
-                dateText.setText(date);
-                listJourneys(date);
-            };
-        }
+            if (dd < 10) {
+                date = "0" + date;
+            }
+            dateText.setText(date);
+            listJourneys(date);
+        };
+    }
 
     private void listJourneys(String date) {
         String[] dateParts = date.split("/");
         date = dateParts[2] + "-" + dateParts[1] + "-" + dateParts[0];
 
-            Log.d("mdp", "Searching for date " + date);
+        Log.d("mdp", "Searching for date " + date);
 
-            Cursor c = getContentResolver().query(JourneyProviderContract.JOURNEY_URI,
-                    new String[]{JourneyProviderContract.J_ID + " _id", JourneyProviderContract.J_NAME, JourneyProviderContract.J_IMAGE,JourneyProviderContract.J_TYPE}, JourneyProviderContract.J_DATE + " = ?", new String[]{date}, JourneyProviderContract.J_NAME + " ASC");
+        Cursor c = getContentResolver().query(JourneyProviderContract.JOURNEY_URI,
+                new String[]{JourneyProviderContract.J_ID + " _id", JourneyProviderContract.J_NAME, JourneyProviderContract.J_IMAGE, JourneyProviderContract.J_TYPE}, JourneyProviderContract.J_DATE + " = ?", new String[]{date}, JourneyProviderContract.J_NAME + " ASC");
 
+        // Clear previous journeyNames
+
+        // Add cursor items into ArrayList and add those items to the adapter
+        try (c) {
             Log.d("mdp", "Journeys Loaded: " + c.getCount());
-
-            // Clear previous journeyNames
             journeyNames.clear();
-
             if (c.getCount() == 0) {
                 // Nếu không có hành trình nào được tìm thấy, ẩn ListView và hiển thị TextView
                 journeyList.setVisibility(View.GONE);
@@ -336,27 +329,22 @@ public class MainActivity extends AppCompatActivity {
                 journeyList.setVisibility(View.VISIBLE);
                 noJourneyTextView.setVisibility(View.GONE);
             }
-
-            // Add cursor items into ArrayList and add those items to the adapter
-            try {
-                while (c.moveToNext()) {
-                    JourneyItem i = new JourneyItem();
-                    int nameIndex = c.getColumnIndex(JourneyProviderContract.J_NAME);
-                    int imageIndex = c.getColumnIndex(JourneyProviderContract.J_IMAGE);
-                    int idIndex = c.getColumnIndex("_id");
-                    int typeIndex=  c.getColumnIndex(JourneyProviderContract.J_TYPE);
-                    i.setName(c.getString(nameIndex));
-                    i.setStrUri(c.getString(imageIndex));
-                    i.set_id(c.getLong(idIndex));
-                    i.setType(c.getString(typeIndex));
-                    journeyNames.add(i);
-                }
-            } finally {
-                c.close();
+            while (c.moveToNext()) {
+                JourneyItem i = new JourneyItem();
+                int nameIndex = c.getColumnIndex(JourneyProviderContract.J_NAME);
+                int imageIndex = c.getColumnIndex(JourneyProviderContract.J_IMAGE);
+                int idIndex = c.getColumnIndex("_id");
+                int typeIndex = c.getColumnIndex(JourneyProviderContract.J_TYPE);
+                i.setName(c.getString(nameIndex));
+                i.setStrUri(c.getString(imageIndex));
+                i.set_id(c.getLong(idIndex));
+                i.setType(c.getString(typeIndex));
+                journeyNames.add(i);
             }
-
-            // Notify the adapter of data changes
-            adapter.notifyDataSetChanged();
         }
 
+        // Notify the adapter of data changes
+        adapter.notifyDataSetChanged();
     }
+
+}

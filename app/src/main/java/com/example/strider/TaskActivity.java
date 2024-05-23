@@ -97,7 +97,7 @@ public class TaskActivity extends AppCompatActivity {
     }
 
     private void checkSuccess() {
-        if(Double.parseDouble(tasks[0]) >= Double.parseDouble(goals[0])) {
+        if (Double.parseDouble(tasks[0]) >= Double.parseDouble(goals[0])) {
             kmSuccess.setText("Success");
             kmSuccess.setTextColor(Color.parseColor("#5cb85c"));
         } else {
@@ -105,7 +105,7 @@ public class TaskActivity extends AppCompatActivity {
             kmSuccess.setTextColor(Color.parseColor("#ffd32c"));
         }
 
-        if(Double.parseDouble(tasks[1]) >= Double.parseDouble(goals[1])) {
+        if (Double.parseDouble(tasks[1]) >= Double.parseDouble(goals[1])) {
             timeSuccess.setText("Success");
             timeSuccess.setTextColor(Color.parseColor("#5cb85c"));
         } else {
@@ -143,8 +143,8 @@ public class TaskActivity extends AppCompatActivity {
         long minutes = (timeTodayS % 3600) / 60;
         double doubleTime = (double) minutes / 60 + hours;
 
-        double distance = (int)(Math.round(distanceTodayKM * 100))/100.0;
-        double time = (int)(Math.round(doubleTime * 100))/100.0;
+        double distance = (int) (Math.round(distanceTodayKM * 100)) / 100.0;
+        double time = (int) (Math.round(doubleTime * 100)) / 100.0;
 
         return distance + "," + time;
     }
@@ -171,14 +171,14 @@ public class TaskActivity extends AppCompatActivity {
         checkSuccess();
     }
 
-    public void writeFileToInternalStorage(String str){
-        File file  = new File(context.getFilesDir(), filename);
+    public void writeFileToInternalStorage(String str) {
+        File file = new File(context.getFilesDir(), filename);
         try {
             FileWriter writer = new FileWriter(file);
             writer.append(str);
             writer.flush();
             writer.close();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

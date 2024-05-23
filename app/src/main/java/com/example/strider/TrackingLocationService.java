@@ -48,6 +48,7 @@ public class TrackingLocationService extends Service {
             return TrackingLocationService.this;
         }
     }
+
     public static TrackingLocationService getInstance() {
         return instance;
     }
@@ -63,7 +64,7 @@ public class TrackingLocationService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null) {
-          typeJourney = intent.getStringExtra("typeJourney");
+            typeJourney = intent.getStringExtra("typeJourney");
         }
         return START_STICKY;
     }
@@ -112,7 +113,7 @@ public class TrackingLocationService extends Service {
         stopTime = 0;
     }
 
-   public double getDuration() {
+    public double getDuration() {
         if (startTime == 0) {
             return 0.0;
         }
@@ -149,6 +150,7 @@ public class TrackingLocationService extends Service {
         }
 
     }
+
     public void stopLocationUpdates() {
         if (!isJourneyStarted) {
             return;
@@ -166,7 +168,7 @@ public class TrackingLocationService extends Service {
         locations.clear();
         stopTime = 0;
         startTime = 0;
-        total=0;
+        total = 0;
         lastSize = 0;
         isJourneyStarted = false;
     }

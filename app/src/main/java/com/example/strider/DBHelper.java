@@ -9,6 +9,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public DBHelper(Context context) {
         super(context, "localDB", null, 1);
     }
+
     // called when getWritableDatabase is called and the database file doesn't exist
     @Override
     public void onCreate(SQLiteDatabase db) {

@@ -37,10 +37,12 @@ public class ViewSingleJourney extends AppCompatActivity {
         public MyObserver(Handler handler) {
             super(handler);
         }
+
         @Override
         public void onChange(boolean selfChange) {
             this.onChange(selfChange, null);
         }
+
         @Override
         public void onChange(boolean selfChange, Uri uri) {
             // called when something in the database wrapped by the content provider changes
@@ -58,11 +60,11 @@ public class ViewSingleJourney extends AppCompatActivity {
 
         distanceTV = findViewById(R.id.Statistics_recordDistance);
         avgSpeedTV = findViewById(R.id.Statistics_distanceToday);
-        timeTV     = findViewById(R.id.Statistics_timeToday);
-        dateTV     = findViewById(R.id.ViewSingleJourney_dateText);
-        ratingTV   = findViewById(R.id.ViewSingleJourney_ratingText);
-        titleTV    = findViewById(R.id.ViewSingleJourney_titleText);
-        journeyID  = bundle.getLong("journeyID");
+        timeTV = findViewById(R.id.Statistics_timeToday);
+        dateTV = findViewById(R.id.ViewSingleJourney_dateText);
+        ratingTV = findViewById(R.id.ViewSingleJourney_ratingText);
+        titleTV = findViewById(R.id.ViewSingleJourney_titleText);
+        journeyID = bundle.getLong("journeyID");
 
         populateView();
         getContentResolver().registerContentObserver(
@@ -108,14 +110,14 @@ public class ViewSingleJourney extends AppCompatActivity {
         Cursor c = getContentResolver().query(Uri.withAppendedPath(JourneyProviderContract.JOURNEY_URI,
                 journeyID + ""), null, null, null, null);
 
-        if(c.moveToFirst()) {
+        if (c.moveToFirst()) {
             int distanceIndex = c.getColumnIndex(JourneyProviderContract.J_DISTANCE);
             int durationIndex = c.getColumnIndex(JourneyProviderContract.J_DURATION);
             double distance = c.getDouble(distanceIndex);
-            long time       = c.getLong(durationIndex);
+            long time = c.getLong(durationIndex);
             double avgSpeed = 0;
 
-            if(time != 0) {
+            if (time != 0) {
                 avgSpeed = distance / (time / 3600.0);
             }
 
@@ -143,7 +145,7 @@ public class ViewSingleJourney extends AppCompatActivity {
 
             // if an image has been set by user display it, else default image is displayed
             String strUri = c.getString(imageIndex);
-            if(strUri != null) {
+            if (strUri != null) {
                 try {
                     final Uri imageUri = Uri.parse(strUri);
                     final InputStream imageStream = getContentResolver().openInputStream(imageUri);

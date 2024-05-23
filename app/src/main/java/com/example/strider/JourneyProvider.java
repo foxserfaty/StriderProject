@@ -48,7 +48,7 @@ public class JourneyProvider extends ContentProvider {
         String tableName;
 
         // given uri -> table name
-        switch(matcher.match(uri)) {
+        switch (matcher.match(uri)) {
             case 1:
                 tableName = "journey";
                 break;
@@ -72,7 +72,7 @@ public class JourneyProvider extends ContentProvider {
     public Cursor query(Uri uri, String[] projection, String selection, String[]
             selectionArgs, String sortOrder) {
 
-        switch(matcher.match(uri)) {
+        switch (matcher.match(uri)) {
             case 2:
                 // gave /# URI so they want a specific row
                 selection = "journeyID = " + uri.getLastPathSegment();
@@ -94,7 +94,7 @@ public class JourneyProvider extends ContentProvider {
         int count;
 
         // given uri -> table name
-        switch(matcher.match(uri)) {
+        switch (matcher.match(uri)) {
             case 2:
                 // gave /# URI so they want a specific row
                 selection = "journeyID = " + uri.getLastPathSegment();
@@ -122,7 +122,7 @@ public class JourneyProvider extends ContentProvider {
         int count;
 
         // given uri -> table name
-        switch(matcher.match(uri)) {
+        switch (matcher.match(uri)) {
             case 2:
                 // gave /# URI so they want a specific row
                 selection = "journeyID = " + uri.getLastPathSegment();
