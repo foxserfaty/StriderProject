@@ -1,5 +1,6 @@
 package com.example.strider;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
@@ -11,7 +12,9 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.InputStream;
@@ -85,10 +88,19 @@ public class ViewSingleJourney extends AppCompatActivity {
     }
 
     public void onClickDelete(View v) {
-        Uri journeyUri = Uri.withAppendedPath(JourneyProviderContract.JOURNEY_URI, String.valueOf(journeyID));
-        int rowsDeleted = getContentResolver().delete(journeyUri, null, null);
-
-        finish();
+        new AlertDialog.Builder(this)
+                .setTitle("Delete Journey")
+                .setMessage("Are you sure you want to delete this journey?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Uri journeyUri = Uri.withAppendedPath(JourneyProviderContract.JOURNEY_URI, String.valueOf(journeyID));
+                        int rowsDeleted = getContentResolver().delete(journeyUri, null, null);
+                        finish();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
     private void populateView() {
