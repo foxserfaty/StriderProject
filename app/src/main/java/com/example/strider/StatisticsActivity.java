@@ -53,26 +53,22 @@ public class StatisticsActivity extends AppCompatActivity {
         navView.setOnItemSelectedListener(menuItem -> {
             if (menuItem.getItemId() == R.id.navigation_account) {
                 return true;
-            }
-            else if (menuItem.getItemId() == R.id.navigation_map) {
+            } else if (menuItem.getItemId() == R.id.navigation_map) {
                 startActivity(new Intent(getApplicationContext(), MyLocationActivity.class));
-                overridePendingTransition(R.anim.slide_right,R.anim.slide_left);
+                overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
                 navView.setSelectedItemId(R.id.navigation_home);
                 return true;
-            }
-            else if (menuItem.getItemId() == R.id.navigation_track) {
+            } else if (menuItem.getItemId() == R.id.navigation_track) {
                 startActivity(new Intent(getApplicationContext(), RecordJourney.class));
-                overridePendingTransition(R.anim.slide_right,R.anim.slide_left);
+                overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
                 return true;
-            }
-            else if (menuItem.getItemId() == R.id.navigation_goal) {
+            } else if (menuItem.getItemId() == R.id.navigation_goal) {
                 startActivity(new Intent(getApplicationContext(), TaskActivity.class));
                 overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
                 return true;
-            }
-            else if (menuItem.getItemId() == R.id.navigation_home) {
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                overridePendingTransition(R.anim.slide_right,R.anim.slide_left);
+            } else if (menuItem.getItemId() == R.id.navigation_home) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
                 return true;
             }
             return false;

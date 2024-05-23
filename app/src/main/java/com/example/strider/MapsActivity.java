@@ -48,13 +48,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 null, JourneyProviderContract.L_JID + " = " + journeyID, null, null);
 
         PolylineOptions line = new PolylineOptions().clickable(false).color(Color.parseColor("#016CC3"))
-                .width(12);;
+                .width(12);
+        ;
         LatLng firstLoc = null;
         LatLng lastLoc = null;
         int index = 0;
         String string = "";
         try {
-            while(c.moveToNext()) {
+            while (c.moveToNext()) {
                 int latIndex = c.getColumnIndex(JourneyProviderContract.L_LATITUDE);
                 int longIndex = c.getColumnIndex(JourneyProviderContract.L_LONGITUDE);
                 LatLng loc = new LatLng(c.getDouble(latIndex),
@@ -64,10 +65,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     string += "\n" + "latLngList.add(location" + index + ");" + "\n";
                 }
                 index++;
-                if(c.isFirst()) {
+                if (c.isFirst()) {
                     firstLoc = loc;
                 }
-                if(c.isLast()) {
+                if (c.isLast()) {
                     lastLoc = loc;
                 }
                 line.add(loc);
@@ -79,7 +80,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d("MyStr", string);
 
         float zoom = 15.0f;
-        if(lastLoc != null && firstLoc != null) {
+        if (lastLoc != null && firstLoc != null) {
             mMap.addMarker(new MarkerOptions().position(firstLoc).title("Start"));
             mMap.addMarker(new MarkerOptions().position(lastLoc).title("End"));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(firstLoc, zoom));

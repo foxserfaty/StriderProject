@@ -50,7 +50,7 @@ public class CustomMapActivity extends AppCompatActivity implements OnMapReadyCa
         spinner.setOnItemSelectedListener(this);
         spinner.setEnabled(false);
 
-        SupportMapFragment supportMapFragment = (SupportMapFragment)getSupportFragmentManager()
+        SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.google_map);
         supportMapFragment.getMapAsync(this);
     }

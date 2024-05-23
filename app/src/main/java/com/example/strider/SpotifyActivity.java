@@ -6,6 +6,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+
 import androidx.fragment.app.FragmentActivity;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -14,6 +15,7 @@ import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatSeekBar;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.PopupMenu;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -52,8 +54,6 @@ import java.util.concurrent.CountDownLatch;
 public class SpotifyActivity extends FragmentActivity {
 
     private static final String TAG = SpotifyActivity.class.getSimpleName();
-
-
     private static final String CLIENT_ID = "60b313d65f7348ae9c08ad18b9337243";
     private static final int REQUEST_CODE = 1337;
     private static final String REDIRECT_URI = "com.example.strider://callback";
@@ -381,7 +381,6 @@ public class SpotifyActivity extends FragmentActivity {
         SpotifyAppRemote.disconnect(mSpotifyAppRemote);
         onDisconnected();
     }
-
 
 
     public void onPlayPodcastButtonClicked(View view) {
@@ -719,10 +718,12 @@ public class SpotifyActivity extends FragmentActivity {
         private final SeekBar.OnSeekBarChangeListener mSeekBarChangeListener =
                 new SeekBar.OnSeekBarChangeListener() {
                     @Override
-                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {}
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    }
 
                     @Override
-                    public void onStartTrackingTouch(SeekBar seekBar) {}
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                    }
 
                     @Override
                     public void onStopTrackingTouch(SeekBar seekBar) {
